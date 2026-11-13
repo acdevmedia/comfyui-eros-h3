@@ -2,9 +2,9 @@
 
 Version profile: `versions/h3-beta7-fix1/`. Bundle revision: `0.1.0`. Proposed image: `ghcr.io/acdevmedia/erosh3-comfyui:h3-beta7-fix1`. **Source-ready; image build, Runpod deployment and GPU generation are pending.**
 
-Available modes: standard H3 (20 steps, CFG 1), turbo4 (four-step FL2V adapter), turbo8 (eight-step FL2V adapter), eros (10Eros beta7 fix1 with baked eight-step turbo). Default: `eros`. Use `MODEL_MODE=all` only when you want every workflow and its model downloads. Normal selected-mode downloads are approximately 36–42 GB, depending on the family and mode.
+Available modes: standard H3 (20 steps, CFG 1), standard-cfg6 (optional guided comparison), turbo4 (four-step FL2V adapter), turbo8 (eight-step FL2V adapter), eros (10Eros beta7 fix1 with baked eight-step turbo). Default: `eros`. Use `MODEL_MODE=all` only when you want every workflow and its model downloads. Normal selected-mode downloads are approximately 36–42 GB, depending on the family and mode.
 
-All workflows include one Video controls node: editable width/height, duration or frame count, positive prompt, and a prefilled editable negative prompt. Seeds randomize in the backend on every queued job, including API jobs, and the actual seed is saved in MP4 metadata. Every H3 workflow, including standard, samples at CFG 1 (as in Comfy-Org's H3 template), so the negative prompt is inactive; the workflow labels this.
+All workflows include one Video controls node: editable width/height, duration or frame count, positive prompt, and a prefilled editable negative prompt. Seeds randomize in the backend on every queued job, including API jobs, and the actual seed is saved in MP4 metadata. The default H3 workflows, including standard, sample at CFG 1 (as in Comfy-Org's H3 template), so the negative prompt is inactive; the workflow labels this.
 
 WAN uses 16 fps with `4k+1` frames; H3 uses 24 fps with `17k+5`. A five-second request rounds up to 81 / 124 frames respectively. Dimensions must be multiples of 32. Upload your own reference image into Load Image before queueing; `reference.png` is a placeholder, not a packaged asset. H3 also generates audio from the positive prompt. The Videos & Audio button opens recent outputs inside ComfyUI.
 
@@ -42,3 +42,7 @@ Pushes to `main` build and CPU-smoke-test containers before publishing model-ver
 Runpod Hub publication uses the released image after image smoke checks. GPU quality and performance require separate Runpod generation tests. See release notes for the exact validation scope.
 
 H3 standard uses the official guidance-free CFG 1 baseline. `MODEL_MODE=standard-cfg6` is an optional 20-step comparison with reference-image conditioning on both branches; its quality and extra compute must be evaluated on GPU.
+
+Initial test releases use `v0.1.0-rc.1` and are marked prerelease. Hub submission and public Pod template publication wait for GPU tests. The `.runpod` files are prepared for that later submission.
+
+For private test Pods, the template tool accepts `--registry-auth-id` pointing to an existing Runpod GHCR authorization. Before public Hub submission, make the GHCR package public and verify an anonymous pull; never embed registry passwords or tokens in Hub files.
