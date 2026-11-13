@@ -43,6 +43,6 @@ Runpod Hub publication uses the released image after image smoke checks. GPU qua
 
 H3 standard uses the official guidance-free CFG 1 baseline. `MODEL_MODE=standard-cfg6` is an optional 20-step comparison with reference-image conditioning on both branches; its quality and extra compute must be evaluated on GPU.
 
-Initial test releases use `v0.1.0-rc.1` and are marked prerelease. Hub submission and public Pod template publication wait for GPU tests. The `.runpod` files are prepared for that later submission.
+Initial test releases use `v0.1.0-rc.2` and are marked prerelease. Hub submission and public Pod template publication wait for GPU tests. The `.runpod` files are prepared for that later submission.
 
 Hub serves ComfyUI through the load-balanced proxy at 8000, with readiness at 8001. This readiness test does not generate a video.
