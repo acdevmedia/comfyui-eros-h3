@@ -19,8 +19,18 @@ GPU smoke test, 13–14 November 2026, Runpod A100 80GB PCIe (driver 595.91.07),
 
 Visual check of eros I2V frames: identity and composition held, prompted motion and push-in present, no flicker seen. Audio present without clipping; speech intelligibility not yet judged by ear. The turbo4/turbo8 modes have since been removed (10Eros has turbo merged in). turbo8 and standard (CFG 1) were stopped unfinished when the Pod was terminated. The new subgraph UI workflows were not loaded in the GPU session.
 
-Not yet validated: GPU weight loading/generation, peak VRAM, timing, warm re-roll caching on GPU, reference fidelity, frontend playback, and H3 audio synchronization. No GPU performance or minimum-VRAM claim follows from these CPU results. Public template/Hub submission remains deferred until GPU tests pass.
+Since validated on GPU: weight loading, generation, timing and warm re-roll caching (above and below). Still open: a minimum-VRAM figure below 80 GB, reference-image fidelity scoring, and H3 audio/lip synchronization judged by ear. Public template/Hub submission remains deferred.
 
-## Not yet run on a GPU
+## Speed defaults on GPU (14 November 2026)
 
-Default int8 + sparse attention, and the 30 s default duration. Compare against dense on the same seed: bypass Sparse attention and set Fast attention to pytorch.
+Runpod A100-SXM4-80GB, image `sha-50038b9`, Eros text-to-video, int8 attention + sol-attn sparse attention (tau 1.3, start 0.2). The log confirmed the sparse path ran ("sparse producer path"); steps 1–2 stayed dense as designed.
+
+| Run | Result |
+|---|---|
+| 10 s, 1024×576, seed 424242, default | 98 s total; sampling 81 s (2 × 15 s int8 dense + 6 × 8.5 s sparse) |
+| Same, fully dense PyTorch attention | 160 s total; sampling 145 s (8 × 18 s) |
+| 30 s, 1024×576, default (stopped after 3 steps) | 105 s per int8 dense step, 44 s per sparse step |
+| 30 s, 960×544, default (user runs, repeated) | about 7.5 min, consistently |
+| Earlier dense baseline, 1024×576 | 15 s ≈ 6 min; 40 s ≈ 31 min (232 s per step) |
+
+Same-seed 10 s comparison, five frame pairs: composition, faces, raincoat texture, reflections and story beats matched in quality. The clips differ in detail, as expected when attention changes. Motion (mean absolute frame difference) was 10.95 sparse against 10.66 dense. Audio was present in both (mean −27 / −29 dB, no clipping). One artefact: a flat, disc-shaped car splash at 3 s in the sparse clip. Not yet judged: long-clip drift past 15 s, and lip sync by ear.

@@ -170,7 +170,7 @@ def subgraph_ui(g,name,subgraph_name):
   inputNode=dict(id=-10,bounding=[0,0,180,40+30*len(sg_inputs)]),outputNode=dict(id=-20,bounding=[right,0,140,40+30*len(sg_outputs)]),
   inputs=sg_inputs,outputs=sg_outputs,widgets=[],nodes=[nodes[i] for i in inner],groups=[],links=sorted(inner_links,key=lambda l:l['id']),extra={})
  note=[] if 'BlockSparseAttention' not in json.dumps(g.api) else [dict(id=sid+1,type='MarkdownNote',title='About speed and length',color='#432',bgcolor='#653',
-  pos=[1760,100],size=[560,960],flags={},order=3,mode=0,inputs=[],outputs=[],properties={},widgets_values=[SPEED_NOTE.read_text()])]  # UI only: not in the executed graph
+  pos=[1760,100],size=[560,960],flags={},order=3,mode=0,inputs=[],outputs=[],properties={},widgets_values=[speed_note()])]  # UI only: not in the executed graph
  return dict(id=str(uuid.uuid5(ns,name+'/workflow')),revision=0,last_node_id=sid+len(note),last_link_id=next_link[0],nodes=[n for n in nodes_out if n['type']!='ACDEVSaveVideo']+[outer]+[n for n in nodes_out if n['type']=='ACDEVSaveVideo']+note,links=sorted(top_links),groups=[],
   definitions=dict(subgraphs=[definition]),config={},extra=dict(ds=dict(scale=0.75,offset=[40,20])),version=0.4)
 def slot(ref,n):return [ref[0],n]
@@ -180,7 +180,10 @@ TASKS={'i2v':'Image to Video','t2v':'Text to Video'}
 # (Eros: steps 1-2 of 8, which set composition and motion) and below 12,288 tokens.
 SPARSE={'selection':'sol-attn','selection.tau':1.3,'start_percent':0.2,'end_percent':1.0,'dense_blocks':'',
  'min_tokens':12288,'extra_tokens':256,'sink_conditioning':'exact_kv_and_rows','verbose':False}
-SPEED_NOTE=pathlib.Path(__file__).with_name('speed-note.md')
+def speed_note():
+ """The README's 'Speed and length' section, shown on every H3 canvas (one source, no drift)."""
+ text=(ROOT/'README.md').read_text();start=text.index('## Speed and length\n')
+ return text[start:text.index('\n## ',start+1)].strip()+'\n'
 PROMPT='A cinematic shot. The subject moves naturally as the camera slowly tracks forward.'
 for project,version,modes in [('EROSH3-SETUP', 'h3-beta7-fix1', ['eros', 'standard'])]:
  root=ROOT;v=root/'versions'/version;profile=json.loads((v/'profile.json').read_text());catalog=[]
