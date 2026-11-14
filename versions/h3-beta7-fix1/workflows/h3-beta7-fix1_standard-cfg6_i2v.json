@@ -46,6 +46,80 @@
       "title": "Upload reference image"
     },
     {
+      "id": 3,
+      "type": "ACDEVRandomSeed",
+      "pos": [
+        0,
+        460
+      ],
+      "size": [
+        360,
+        110
+      ],
+      "flags": {},
+      "order": 2,
+      "mode": 0,
+      "inputs": [],
+      "outputs": [
+        {
+          "name": "INT",
+          "type": "INT",
+          "links": [
+            36,
+            34
+          ]
+        }
+      ],
+      "properties": {
+        "Node name for S&R": "ACDEVRandomSeed",
+        "widget_order": [
+          "seed"
+        ]
+      },
+      "widgets_values": [
+        0,
+        "randomize"
+      ],
+      "title": "Seed (randomized every job)"
+    },
+    {
+      "id": 19,
+      "type": "ACDEVSaveVideo",
+      "pos": [
+        960,
+        0
+      ],
+      "size": [
+        480,
+        520
+      ],
+      "flags": {},
+      "order": 18,
+      "mode": 0,
+      "inputs": [
+        {
+          "name": "video",
+          "type": "VIDEO",
+          "link": 42
+        },
+        {
+          "name": "seed",
+          "type": "INT",
+          "link": 34
+        }
+      ],
+      "outputs": [],
+      "properties": {
+        "Node name for S&R": "ACDEVSaveVideo",
+        "widget_order": [
+          "filename_prefix"
+        ]
+      },
+      "widgets_values": [
+        "video/h3-beta7-fix1/standard-cfg6/i2v"
+      ]
+    },
+    {
       "id": 20,
       "type": "a50aa1fd-7c9a-5b54-bc77-03d95fad236c",
       "title": "Generate video: H3 standard-cfg6 (image to video)",
@@ -65,6 +139,11 @@
           "name": "reference_image",
           "type": "IMAGE",
           "link": 35
+        },
+        {
+          "name": "seed",
+          "type": "INT",
+          "link": 36
         },
         {
           "name": "prompt",
@@ -112,13 +191,6 @@
           "name": "video",
           "type": "VIDEO",
           "links": [
-            41
-          ]
-        },
-        {
-          "name": "seed",
-          "type": "INT",
-          "links": [
             42
           ]
         }
@@ -131,51 +203,17 @@
         768,
         5.0
       ]
-    },
-    {
-      "id": 19,
-      "type": "ACDEVSaveVideo",
-      "pos": [
-        960,
-        0
-      ],
-      "size": [
-        480,
-        520
-      ],
-      "flags": {},
-      "order": 18,
-      "mode": 0,
-      "inputs": [
-        {
-          "name": "video",
-          "type": "VIDEO",
-          "link": 41
-        },
-        {
-          "name": "seed",
-          "type": "INT",
-          "link": 42,
-          "widget": {
-            "name": "seed"
-          }
-        }
-      ],
-      "outputs": [],
-      "properties": {
-        "Node name for S&R": "ACDEVSaveVideo",
-        "widget_order": [
-          "filename_prefix",
-          "seed"
-        ]
-      },
-      "widgets_values": [
-        "video/h3-beta7-fix1/standard-cfg6/i2v",
-        0
-      ]
     }
   ],
   "links": [
+    [
+      34,
+      3,
+      0,
+      19,
+      1,
+      "INT"
+    ],
     [
       35,
       2,
@@ -185,20 +223,20 @@
       "IMAGE"
     ],
     [
-      41,
+      36,
+      3,
+      0,
+      20,
+      1,
+      "INT"
+    ],
+    [
+      42,
       20,
       0,
       19,
       0,
       "VIDEO"
-    ],
-    [
-      42,
-      20,
-      1,
-      19,
-      1,
-      "INT"
     ]
   ],
   "groups": [],
@@ -222,7 +260,7 @@
             0,
             0,
             180,
-            220
+            250
           ]
         },
         "outputNode": {
@@ -231,7 +269,7 @@
             2820,
             0,
             140,
-            100
+            70
           ]
         },
         "inputs": [
@@ -249,11 +287,11 @@
             ]
           },
           {
-            "id": "79b67ece-4046-549a-a8cc-79ea9e396c7e",
-            "name": "prompt",
-            "type": "STRING",
+            "id": "91773a3b-4ad4-54a8-af7f-0484593255e8",
+            "name": "seed",
+            "type": "INT",
             "linkIds": [
-              36
+              20
             ],
             "pos": [
               200,
@@ -261,8 +299,8 @@
             ]
           },
           {
-            "id": "0543324f-180b-524d-bc95-85f447d00ac1",
-            "name": "negative_prompt",
+            "id": "79b67ece-4046-549a-a8cc-79ea9e396c7e",
+            "name": "prompt",
             "type": "STRING",
             "linkIds": [
               37
@@ -273,9 +311,9 @@
             ]
           },
           {
-            "id": "b1e6afb9-3005-5084-bc54-88ce2081699e",
-            "name": "width",
-            "type": "INT",
+            "id": "0543324f-180b-524d-bc95-85f447d00ac1",
+            "name": "negative_prompt",
+            "type": "STRING",
             "linkIds": [
               38
             ],
@@ -285,8 +323,8 @@
             ]
           },
           {
-            "id": "385c0932-0126-5473-b5c7-932c06028f31",
-            "name": "height",
+            "id": "b1e6afb9-3005-5084-bc54-88ce2081699e",
+            "name": "width",
             "type": "INT",
             "linkIds": [
               39
@@ -297,15 +335,27 @@
             ]
           },
           {
-            "id": "5a8ac847-dcd2-56d3-926b-e7c2e5bfd7cc",
-            "name": "duration",
-            "type": "FLOAT",
+            "id": "385c0932-0126-5473-b5c7-932c06028f31",
+            "name": "height",
+            "type": "INT",
             "linkIds": [
               40
             ],
             "pos": [
               200,
               190
+            ]
+          },
+          {
+            "id": "5a8ac847-dcd2-56d3-926b-e7c2e5bfd7cc",
+            "name": "duration",
+            "type": "FLOAT",
+            "linkIds": [
+              41
+            ],
+            "pos": [
+              200,
+              220
             ]
           }
         ],
@@ -320,18 +370,6 @@
             "pos": [
               2840,
               40
-            ]
-          },
-          {
-            "id": "77990997-29ec-5b1d-bc2c-ec81e5259f66",
-            "name": "seed",
-            "type": "INT",
-            "linkIds": [
-              34
-            ],
-            "pos": [
-              2840,
-              70
             ]
           }
         ],
@@ -358,7 +396,7 @@
                 "widget": {
                   "name": "prompt"
                 },
-                "link": 36
+                "link": 37
               },
               {
                 "name": "negative_prompt",
@@ -366,7 +404,7 @@
                 "widget": {
                   "name": "negative_prompt"
                 },
-                "link": 37
+                "link": 38
               },
               {
                 "name": "width",
@@ -374,7 +412,7 @@
                 "widget": {
                   "name": "width"
                 },
-                "link": 38
+                "link": 39
               },
               {
                 "name": "height",
@@ -382,7 +420,7 @@
                 "widget": {
                   "name": "height"
                 },
-                "link": 39
+                "link": 40
               },
               {
                 "name": "duration",
@@ -390,7 +428,7 @@
                 "widget": {
                   "name": "duration"
                 },
-                "link": 40
+                "link": 41
               }
             ],
             "outputs": [
@@ -461,43 +499,11 @@
             ]
           },
           {
-            "id": 3,
-            "type": "ACDEVRandomSeed",
-            "pos": [
-              300,
-              580
-            ],
-            "size": [
-              340,
-              90
-            ],
-            "flags": {},
-            "order": 2,
-            "mode": 0,
-            "inputs": [],
-            "outputs": [
-              {
-                "name": "INT",
-                "type": "INT",
-                "links": [
-                  20,
-                  34
-                ]
-              }
-            ],
-            "properties": {
-              "Node name for S&R": "ACDEVRandomSeed",
-              "widget_order": []
-            },
-            "widgets_values": [],
-            "title": "Random seed (new every job)"
-          },
-          {
             "id": 4,
             "type": "CLIPLoader",
             "pos": [
               300,
-              710
+              580
             ],
             "size": [
               340,
@@ -536,7 +542,7 @@
             "type": "VAELoader",
             "pos": [
               300,
-              924
+              794
             ],
             "size": [
               340,
@@ -761,7 +767,7 @@
             "type": "UNETLoader",
             "pos": [
               300,
-              1082
+              952
             ],
             "size": [
               340,
@@ -890,7 +896,7 @@
             "type": "KSamplerSelect",
             "pos": [
               300,
-              1268
+              1138
             ],
             "size": [
               340,
@@ -967,8 +973,8 @@
             "id": 13,
             "type": "RandomNoise",
             "pos": [
-              720,
-              1090
+              300,
+              1296
             ],
             "size": [
               340,
@@ -1115,7 +1121,7 @@
             "type": "VAELoader",
             "pos": [
               300,
-              1426
+              1510
             ],
             "size": [
               340,
@@ -1403,8 +1409,8 @@
           },
           {
             "id": 20,
-            "origin_id": 3,
-            "origin_slot": 0,
+            "origin_id": -10,
+            "origin_slot": 1,
             "target_id": 13,
             "target_slot": 0,
             "type": "INT"
@@ -1514,27 +1520,11 @@
             "type": "VIDEO"
           },
           {
-            "id": 34,
-            "origin_id": 3,
-            "origin_slot": 0,
-            "target_id": -20,
-            "target_slot": 1,
-            "type": "INT"
-          },
-          {
-            "id": 36,
-            "origin_id": -10,
-            "origin_slot": 1,
-            "target_id": 1,
-            "target_slot": 0,
-            "type": "STRING"
-          },
-          {
             "id": 37,
             "origin_id": -10,
             "origin_slot": 2,
             "target_id": 1,
-            "target_slot": 1,
+            "target_slot": 0,
             "type": "STRING"
           },
           {
@@ -1542,21 +1532,29 @@
             "origin_id": -10,
             "origin_slot": 3,
             "target_id": 1,
-            "target_slot": 2,
-            "type": "INT"
+            "target_slot": 1,
+            "type": "STRING"
           },
           {
             "id": 39,
             "origin_id": -10,
             "origin_slot": 4,
             "target_id": 1,
-            "target_slot": 3,
+            "target_slot": 2,
             "type": "INT"
           },
           {
             "id": 40,
             "origin_id": -10,
             "origin_slot": 5,
+            "target_id": 1,
+            "target_slot": 3,
+            "type": "INT"
+          },
+          {
+            "id": 41,
+            "origin_id": -10,
+            "origin_slot": 6,
             "target_id": 1,
             "target_slot": 4,
             "type": "FLOAT"
