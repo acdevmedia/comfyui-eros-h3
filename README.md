@@ -1,6 +1,6 @@
 # 10Eros-Max H3 beta7 fix1 ComfyUI Runpod bundle
 
-Version profile: `versions/h3-beta7-fix1/`. Bundle revision: `0.1.0`. Container image: `ghcr.io/acdevmedia/erosh3-comfyui:h3-beta7-fix1`. **Container build and CPU smoke tests passed for v0.1.0-rc.2. GPU generation remains pending.**
+Version profile: `versions/h3-beta7-fix1/`. Bundle revision: `0.1.0`. Container image: `ghcr.io/acdevmedia/erosh3-comfyui:h3-beta7-fix1`. **Every `develop` build passes the source, container and CPU schema checks before publishing. GPU generation was verified on an A100 80 GB (see docs/VALIDATION.md); the latest canvas and Exact Frame changes have not yet run on a GPU.**
 
 Workflows (Workflows sidebar → **H3 video (10Eros beta7 fix1)**): 01/02 **Eros** image/text to video (10Eros beta7 fix1 with its built-in 8-step turbo; recommended), 03/04 **Turbo 8-step**, 05/06 **Turbo 4-step** (base H3 with Comfy-Org's FL2V turbo adapters), 07/08 **Standard 20-step** (base H3, no adapter). The turbo adapters measurably reduce motion (about a quarter to half of Eros on the same shot), so use Eros unless you need the base model. Default `MODEL_MODE`: `all`: every workflow is installed and its weights downloaded, about 67 GB. Set `MODEL_MODE` to `eros`, `turbo8`, `turbo4` or `standard` for a smaller download and only that mode's workflows.
 
@@ -43,8 +43,8 @@ Runpod Hub publication uses the released image after image smoke checks. GPU qua
 
 H3 standard uses the official guidance-free CFG 1 baseline. Raise CFG in Shot settings to compare guided sampling; it roughly doubles the time per step.
 
-Initial test releases use `v0.1.0-rc.2` and are marked prerelease. Hub submission and public Pod template publication wait for GPU tests. The `.runpod` files are prepared for that later submission.
+Images follow the model version, like the LTX (`ltx-studio:2.5`) and Eros (`eros-comfyui:1.5`) bundles: every passing build of `develop` publishes `ghcr.io/acdevmedia/erosh3-comfyui:h3-beta7-fix1` plus an immutable `sha-<commit>` tag for pinning or rollback. Hub submission and public Pod template publication wait for GPU tests. The `.runpod` files are prepared for that later submission.
 
 For private test Pods, the template tool accepts `--registry-auth-id` pointing to an existing Runpod GHCR authorization. Before public Hub submission, make the GHCR package public and verify an anonymous pull; never embed registry passwords or tokens in Hub files.
 
-Release candidate: [v0.1.0-rc.2](https://github.com/acdevmedia/comfyui-eros-h3/releases/tag/v0.1.0-rc.2). [Container build and CPU smoke results](https://github.com/acdevmedia/comfyui-eros-h3/actions/runs/43521507064). A private digest-pinned test template is available; public Hub submission remains deferred.
+[Container build and CPU smoke results](https://github.com/acdevmedia/comfyui-eros-h3/actions/runs/43521507064). A private digest-pinned test template is available; public Hub submission remains deferred.
