@@ -97,7 +97,10 @@
         {
           "name": "seed",
           "type": "INT",
-          "link": 29
+          "link": 29,
+          "widget": {
+            "name": "seed"
+          }
         },
         {
           "name": "prompt",
@@ -151,10 +154,11 @@
       ],
       "properties": {},
       "widgets_values": [
+        0,
         "A cinematic shot. The subject moves naturally as the camera slowly tracks forward.",
         "low quality, blurry, overexposed, static frame, frozen motion, temporal flicker, jitter, distorted anatomy, extra limbs, malformed hands, duplicated subjects, text, subtitles, watermark, compression artifacts",
-        1344,
-        768,
+        1024,
+        576,
         5.0
       ]
     }
@@ -421,8 +425,8 @@
             },
             "widgets_values": [
               "h3",
-              1344,
-              768,
+              1024,
+              576,
               5.0,
               "A cinematic shot. The subject moves naturally as the camera slowly tracks forward.",
               "low quality, blurry, overexposed, static frame, frozen motion, temporal flicker, jitter, distorted anatomy, extra limbs, malformed hands, duplicated subjects, text, subtitles, watermark, compression artifacts"

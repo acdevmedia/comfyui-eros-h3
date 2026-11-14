@@ -3,8 +3,8 @@
     "class_type": "ACDEVVideoControls",
     "inputs": {
       "family": "h3",
-      "width": 1344,
-      "height": 768,
+      "width": 1024,
+      "height": 576,
       "duration": 5.0,
       "prompt": "A cinematic shot. The subject moves naturally as the camera slowly tracks forward.",
       "negative_prompt": "low quality, blurry, overexposed, static frame, frozen motion, temporal flicker, jitter, distorted anatomy, extra limbs, malformed hands, duplicated subjects, text, subtitles, watermark, compression artifacts"
