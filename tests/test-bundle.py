@@ -108,6 +108,7 @@ class BundleTests(unittest.TestCase):
       if gd['class_type']=='CFGGuider':
        neg=api[gd['inputs']['negative'][0]];self.assertEqual(neg['class_type'],'MiniMaxH3ImageToVideo');self.assertIn('first_frame',neg['inputs'])
     if item['mode']=='turbo':self.assertEqual(sum(n['class_type']=='LoraLoaderModelOnly' for n in api.values()),2)
+    if 'MiniMaxH3ImageToVideo' in json.dumps(api):self.assertFalse(any(n['class_type']=='LoraLoaderModelOnly' for n in api.values()))  # 10Eros has turbo merged; no H3 path adds a LoRA
  def test_provision_skips_rehash_until_file_changes(self):
   import hashlib,os,sys,tempfile,types
   from unittest import mock

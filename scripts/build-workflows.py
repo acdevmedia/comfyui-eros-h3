@@ -167,11 +167,10 @@ def subgraph_ui(g,name,subgraph_name):
  return dict(id=str(uuid.uuid5(ns,name+'/workflow')),revision=0,last_node_id=sid,last_link_id=next_link[0],nodes=[n for n in nodes_out if n['type']!='ACDEVSaveVideo']+[outer]+[n for n in nodes_out if n['type']=='ACDEVSaveVideo'],links=sorted(top_links),groups=[],
   definitions=dict(subgraphs=[definition]),config={},extra=dict(ds=dict(scale=0.75,offset=[40,20])),version=0.4)
 def slot(ref,n):return [ref[0],n]
-LABELS={'eros':'Eros','turbo8':'Turbo 8-step','turbo4':'Turbo 4-step','standard':'Standard 20-step',
- 'turbo':'Turbo','t2v-turbo':'Turbo','t2v':'Standard 20-step','remix':'Remix'}
+LABELS={'eros':'Eros','standard':'Standard 20-step','turbo':'Turbo','t2v-turbo':'Turbo','t2v':'Standard 20-step','remix':'Remix'}
 TASKS={'i2v':'Image to Video','t2v':'Text to Video'}
 PROMPT='A cinematic shot. The subject moves naturally as the camera slowly tracks forward.'
-for project,version,modes in [('EROSH3-SETUP', 'h3-beta7-fix1', ['eros', 'turbo8', 'turbo4', 'standard'])]:
+for project,version,modes in [('EROSH3-SETUP', 'h3-beta7-fix1', ['eros', 'standard'])]:
  root=ROOT;v=root/'versions'/version;profile=json.loads((v/'profile.json').read_text());catalog=[]
  for sub in ('workflows','api'):
   for old in (v/sub).glob('*.json'):old.unlink()  # renamed files must not linger
@@ -232,11 +231,11 @@ for project,version,modes in [('EROSH3-SETUP', 'h3-beta7-fix1', ['eros', 'turbo8
    else:
     cond=g.add('MiniMaxH3ImageToVideo',dict(clip=clip,vae=vae,prompt=slot(ctrl,4),width=ctrl,height=slot(ctrl,1),length=slot(ctrl,2),**({'first_frame':image} if image else {})))
     m=g.add('UNETLoader',dict(unet_name=file('diffusion_models'),weight_dtype='default'))
-    if mode in ('turbo4','turbo8'):m=g.add('LoraLoaderModelOnly',dict(model=m,lora_name=file('loras'),strength_model=1.0))
+    # 10Eros has its eight-step turbo merged in and base H3 standard samples without one: no LoRA on any H3 path.
     m=g.add('MiniMaxH3SigmaShift',dict(model=m,shift_video=12.0,shift_audio=3.0))
     guide=g.add('CFGGuider',dict(model=m,positive=cond,negative=neg,cfg=h3_cfg))
     sampler=g.add('KSamplerSelect',dict(sampler_name='euler' if mode=='eros' else 'res_multistep'))
-    sig=g.add('BasicScheduler',dict(model=m,scheduler='simple',steps=20 if mode=='standard' else (4 if mode=='turbo4' else 8),denoise=1.0));noise=g.add('RandomNoise',dict(noise_seed=seed))
+    sig=g.add('BasicScheduler',dict(model=m,scheduler='simple',steps=20 if mode=='standard' else 8,denoise=1.0));noise=g.add('RandomNoise',dict(noise_seed=seed))
     latent=g.add('SamplerCustomAdvanced',dict(noise=noise,guider=guide,sampler=sampler,sigmas=sig,latent_image=slot(cond,1)))
    video=g.add('VAEDecode',dict(samples=latent,vae=vae))
    cv=dict(images=video,fps=slot(ctrl,3))

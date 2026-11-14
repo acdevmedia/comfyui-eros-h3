@@ -17,6 +17,6 @@ GPU smoke test, 13–14 November 2026, Runpod A100 80GB PCIe (driver 595.91.07),
 | eros T2V | success | 147.6 s | ~45 GB |
 | turbo4 I2V | success | 95.1 s | ~44 GB |
 
-Visual check of eros I2V frames: identity and composition held, prompted motion and push-in present, no flicker seen. Audio present without clipping; speech intelligibility not yet judged by ear. turbo8 and standard (CFG 1) were stopped unfinished when the Pod was terminated. The new subgraph UI workflows were not loaded in the GPU session.
+Visual check of eros I2V frames: identity and composition held, prompted motion and push-in present, no flicker seen. Audio present without clipping; speech intelligibility not yet judged by ear. The turbo4/turbo8 modes have since been removed (10Eros has turbo merged in). turbo8 and standard (CFG 1) were stopped unfinished when the Pod was terminated. The new subgraph UI workflows were not loaded in the GPU session.
 
 Not yet validated: GPU weight loading/generation, peak VRAM, timing, warm re-roll caching on GPU, reference fidelity, frontend playback, and H3 audio synchronization. No GPU performance or minimum-VRAM claim follows from these CPU results. Public template/Hub submission remains deferred until GPU tests pass.
