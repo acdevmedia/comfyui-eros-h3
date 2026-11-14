@@ -9,12 +9,26 @@
     }
   },
   "2": {
+    "class_type": "LoadImage",
+    "inputs": {
+      "image": "reference.png"
+    },
+    "_meta": {
+      "title": "Starting image"
+    }
+  },
+  "3": {
     "class_type": "ACDEVVideoControls",
     "inputs": {
+      "image": [
+        "2",
+        0
+      ],
       "family": "h3",
       "width": 1024,
       "height": 576,
       "duration": 5.0,
+      "exact_frame": false,
       "prompt": [
         "1",
         0
@@ -25,16 +39,29 @@
       "title": "ACDEVVideoControls"
     }
   },
-  "3": {
-    "class_type": "LoadImage",
+  "4": {
+    "class_type": "ImageScale",
     "inputs": {
-      "image": "reference.png"
+      "image": [
+        "2",
+        0
+      ],
+      "upscale_method": "lanczos",
+      "width": [
+        "3",
+        0
+      ],
+      "height": [
+        "3",
+        1
+      ],
+      "crop": "center"
     },
     "_meta": {
-      "title": "Starting image"
+      "title": "Fit starting image to frame"
     }
   },
-  "4": {
+  "5": {
     "class_type": "ACDEVRandomSeed",
     "inputs": {
       "seed": 0
@@ -43,7 +70,7 @@
       "title": "Seed"
     }
   },
-  "5": {
+  "6": {
     "class_type": "CLIPLoader",
     "inputs": {
       "clip_name": "qwen3vl_32b_minimax_h3_nvfp4_awq.safetensors",
@@ -54,7 +81,7 @@
       "title": "CLIPLoader"
     }
   },
-  "6": {
+  "7": {
     "class_type": "VAELoader",
     "inputs": {
       "vae_name": "minimax_h3_video_vae_int8_convrot.safetensors"
@@ -63,35 +90,35 @@
       "title": "VAELoader"
     }
   },
-  "7": {
+  "8": {
     "class_type": "MiniMaxH3ImageToVideo",
     "inputs": {
       "clip": [
-        "5",
-        0
-      ],
-      "vae": [
         "6",
         0
       ],
+      "vae": [
+        "7",
+        0
+      ],
       "prompt": [
-        "2",
+        "3",
         5
       ],
       "width": [
-        "2",
+        "3",
         0
       ],
       "height": [
-        "2",
+        "3",
         1
       ],
       "length": [
-        "2",
+        "3",
         2
       ],
       "first_frame": [
-        "3",
+        "4",
         0
       ]
     },
@@ -99,35 +126,35 @@
       "title": "Negative prompt"
     }
   },
-  "8": {
+  "9": {
     "class_type": "MiniMaxH3ImageToVideo",
     "inputs": {
       "clip": [
-        "5",
-        0
-      ],
-      "vae": [
         "6",
         0
       ],
+      "vae": [
+        "7",
+        0
+      ],
       "prompt": [
-        "2",
+        "3",
         4
       ],
       "width": [
-        "2",
+        "3",
         0
       ],
       "height": [
-        "2",
+        "3",
         1
       ],
       "length": [
-        "2",
+        "3",
         2
       ],
       "first_frame": [
-        "3",
+        "4",
         0
       ]
     },
@@ -135,7 +162,7 @@
       "title": "MiniMaxH3ImageToVideo"
     }
   },
-  "9": {
+  "10": {
     "class_type": "UNETLoader",
     "inputs": {
       "unet_name": "minimax_h3_fl2va_pruned_int8_convrot.safetensors",
@@ -145,11 +172,11 @@
       "title": "UNETLoader"
     }
   },
-  "10": {
+  "11": {
     "class_type": "MiniMaxH3SigmaShift",
     "inputs": {
       "model": [
-        "9",
+        "10",
         0
       ],
       "shift_video": 12.0,
@@ -159,19 +186,19 @@
       "title": "MiniMaxH3SigmaShift"
     }
   },
-  "11": {
+  "12": {
     "class_type": "CFGGuider",
     "inputs": {
       "model": [
-        "10",
+        "11",
         0
       ],
       "positive": [
-        "8",
+        "9",
         0
       ],
       "negative": [
-        "7",
+        "8",
         0
       ],
       "cfg": 1.0
@@ -180,7 +207,7 @@
       "title": "CFGGuider"
     }
   },
-  "12": {
+  "13": {
     "class_type": "KSamplerSelect",
     "inputs": {
       "sampler_name": "res_multistep"
@@ -189,11 +216,11 @@
       "title": "KSamplerSelect"
     }
   },
-  "13": {
+  "14": {
     "class_type": "BasicScheduler",
     "inputs": {
       "model": [
-        "10",
+        "11",
         0
       ],
       "scheduler": "simple",
@@ -204,11 +231,11 @@
       "title": "BasicScheduler"
     }
   },
-  "14": {
+  "15": {
     "class_type": "RandomNoise",
     "inputs": {
       "noise_seed": [
-        "4",
+        "5",
         0
       ]
     },
@@ -216,27 +243,27 @@
       "title": "RandomNoise"
     }
   },
-  "15": {
+  "16": {
     "class_type": "SamplerCustomAdvanced",
     "inputs": {
       "noise": [
-        "14",
+        "15",
         0
       ],
       "guider": [
-        "11",
-        0
-      ],
-      "sampler": [
         "12",
         0
       ],
-      "sigmas": [
+      "sampler": [
         "13",
         0
       ],
+      "sigmas": [
+        "14",
+        0
+      ],
       "latent_image": [
-        "8",
+        "9",
         1
       ]
     },
@@ -244,15 +271,15 @@
       "title": "SamplerCustomAdvanced"
     }
   },
-  "16": {
+  "17": {
     "class_type": "VAEDecode",
     "inputs": {
       "samples": [
-        "15",
+        "16",
         0
       ],
       "vae": [
-        "6",
+        "7",
         0
       ]
     },
@@ -260,7 +287,7 @@
       "title": "VAEDecode"
     }
   },
-  "17": {
+  "18": {
     "class_type": "VAELoader",
     "inputs": {
       "vae_name": "minimax_h3_audio_vae_fp32.safetensors"
@@ -269,15 +296,15 @@
       "title": "VAELoader"
     }
   },
-  "18": {
+  "19": {
     "class_type": "VAEDecodeAudio",
     "inputs": {
       "samples": [
-        "15",
+        "16",
         0
       ],
       "vae": [
-        "17",
+        "18",
         0
       ]
     },
@@ -285,19 +312,19 @@
       "title": "VAEDecodeAudio"
     }
   },
-  "19": {
+  "20": {
     "class_type": "CreateVideo",
     "inputs": {
       "images": [
-        "16",
+        "17",
         0
       ],
       "fps": [
-        "2",
+        "3",
         3
       ],
       "audio": [
-        "18",
+        "19",
         0
       ]
     },
@@ -305,16 +332,16 @@
       "title": "CreateVideo"
     }
   },
-  "20": {
+  "21": {
     "class_type": "ACDEVSaveVideo",
     "inputs": {
       "video": [
-        "19",
+        "20",
         0
       ],
       "filename_prefix": "video/h3-beta7-fix1/standard/i2v",
       "seed": [
-        "4",
+        "5",
         0
       ]
     },

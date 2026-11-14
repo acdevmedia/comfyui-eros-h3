@@ -504,6 +504,7 @@
                 "width",
                 "height",
                 "duration",
+                "exact_frame",
                 "prompt",
                 "negative_prompt"
               ]
@@ -513,6 +514,7 @@
               1024,
               576,
               5.0,
+              false,
               "",
               "low quality, blurry, overexposed, static frame, frozen motion, temporal flicker, jitter, distorted anatomy, extra limbs, malformed hands, duplicated subjects, text, subtitles, watermark, compression artifacts"
             ]
