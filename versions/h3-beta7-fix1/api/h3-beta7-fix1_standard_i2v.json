@@ -5,9 +5,7 @@
       "family": "h3",
       "width": 1344,
       "height": 768,
-      "length_mode": "duration",
       "duration": 5.0,
-      "num_frames": 124,
       "prompt": "A cinematic shot. The subject moves naturally as the camera slowly tracks forward.",
       "negative_prompt": "low quality, blurry, overexposed, static frame, frozen motion, temporal flicker, jitter, distorted anatomy, extra limbs, malformed hands, duplicated subjects, text, subtitles, watermark, compression artifacts"
     },
@@ -280,7 +278,7 @@
         "18",
         0
       ],
-      "filename_prefix": "video/h3-beta7-fix1/standard",
+      "filename_prefix": "video/h3-beta7-fix1/standard/i2v",
       "seed": [
         "3",
         0

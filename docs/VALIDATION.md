@@ -2,16 +2,21 @@
 
 Checked 13 November 2026.
 
-Passed locally: control frame-grid rounding and dimension/range rejection; backend random seed generation; manifest revision/hash structure; UI/API graph link consistency; model filename coverage; no duplicate acceleration adapters on merged Eros/Remix; Docker context excludes credentials; CPU quota/affinity/override fixtures; deterministic regeneration; Python compilation and shell syntax; current pinned ComfyUI proxy-guard patch application. PyTorch CUDA 13 wheel versions and the CUDA image digest were checked against upstream registries.
+Container build and all CPU smoke checks passed for release candidate `v0.1.0-rc.2`: [GitHub Actions](https://github.com/acdevmedia/comfyui-eros-h3/actions/runs/43521507064). Both image installation and ComfyUI startup succeeded. Every packaged API workflow passed live node-schema validation. Authenticated output listing, downloads, thumbnails, ZIP downloads and read-only access checks passed; zip/unzip and AWS CLI are installed, and `aws --version` succeeds. Source control/frame-grid/seed/hash-cache tests and CPU thread quota tests also passed.
 
-Local Docker attempt: `docker info` could not connect to the Docker Desktop daemon. No image build was started. Pinned upstream node input names were additionally checked from the exact ComfyUI source revision.
+Release images are public in GHCR; anonymous manifest access was verified. A private, digest-pinned Runpod test template has been created. Creating the template does not start a Pod or incur GPU usage.
 
-Also passed locally: Video controls are deterministic and the separate seed node is the only uncached input to sampling and saving; real-CFG negatives carry the reference image; the provisioner hashes once, skips re-hashing while the file is unchanged, re-hashes after a rewrite, forces a re-download of a corrupt file and honors `VERIFY_MODELS=full` (stubbed Hub download).
+Image digest: `ghcr.io/acdevmedia/erosh3-comfyui@sha256:f0da72fdc0fae4613893aa86520f3fac5d45af629000de7eaa0906fd46023041`.
 
-Not run: Docker image build, image-time ComfyUI schema smoke test, authenticated Copyparty integration test, frontend browser import/playback, actual model loading, Runpod deployment, GPU generation, peak VRAM, timing, reference fidelity and H3 audio synchronization. CI definitions for image build/schema/file-browser tests are included, but this is not a record that CI passed. No model weights were downloaded locally.
+GPU smoke test, 13–14 November 2026, Runpod A100 80GB PCIe (driver 595.91.07), rc.2 image with the custom_nodes boot fix applied through the Pod entrypoint (the rc.2 image itself fails at ComfyUI startup; fixed in source since). PyTorch attention, API workflows, 1344×768, 5 s requested (124 frames, 24 fps, AAC audio):
 
-Before deployment, run the image checks and the generation/restart matrix in research.md. Use separate measured results for standard H3, each H3 turbo, Eros beta7 fix1, standard WAN, WAN turbo and Remix v3. No benchmark or compatibility claim transfers automatically between them.
+| Workflow | Result | Execution | Sampled peak VRAM |
+|---|---|---|---|
+| eros I2V, cold | success | 168.6 s (8 steps × 17.8 s) | ~43 GB |
+| eros I2V, warm re-roll | success | 158.9 s (encodes cached) | ~45 GB |
+| eros T2V | success | 147.6 s | ~45 GB |
+| turbo4 I2V | success | 95.1 s | ~44 GB |
 
-First GitHub image build: installation and all live ComfyUI API schema checks passed. The output-download smoke test then caught a missing `unzip` executable. The Dockerfile now installs zip/unzip; a candidate rebuild must pass the entire test sequence before release publication.
+Visual check of eros I2V frames: identity and composition held, prompted motion and push-in present, no flicker seen. Audio present without clipping; speech intelligibility not yet judged by ear. turbo8 and standard (CFG 1) were stopped unfinished when the Pod was terminated. The new subgraph UI workflows were not loaded in the GPU session.
 
-Candidate rc.1 passed image installation and live ComfyUI schema checks, then the copied output-download test found the missing AWS CLI. Candidate rc.2 adds pinned awscli 1.46.3 in its own virtual environment to both images, checks `aws --version` during the build and in the download smoke test, and is queued for a full rebuild. GPU tests and Hub submission remain deferred.
+Not yet validated: GPU weight loading/generation, peak VRAM, timing, warm re-roll caching on GPU, reference fidelity, frontend playback, and H3 audio synchronization. No GPU performance or minimum-VRAM claim follows from these CPU results. Public template/Hub submission remains deferred until GPU tests pass.

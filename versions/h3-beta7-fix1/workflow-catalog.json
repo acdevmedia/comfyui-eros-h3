@@ -2,36 +2,81 @@
   {
     "name": "h3-beta7-fix1_standard_i2v",
     "mode": "standard",
+    "task": "i2v",
     "ui": "workflows/h3-beta7-fix1_standard_i2v.json",
     "api": "api/h3-beta7-fix1_standard_i2v.json",
     "experimental": false
   },
   {
+    "name": "h3-beta7-fix1_standard_t2v",
+    "mode": "standard",
+    "task": "t2v",
+    "ui": "workflows/h3-beta7-fix1_standard_t2v.json",
+    "api": "api/h3-beta7-fix1_standard_t2v.json",
+    "experimental": false
+  },
+  {
     "name": "h3-beta7-fix1_standard-cfg6_i2v",
     "mode": "standard-cfg6",
+    "task": "i2v",
     "ui": "workflows/h3-beta7-fix1_standard-cfg6_i2v.json",
     "api": "api/h3-beta7-fix1_standard-cfg6_i2v.json",
     "experimental": true
   },
   {
+    "name": "h3-beta7-fix1_standard-cfg6_t2v",
+    "mode": "standard-cfg6",
+    "task": "t2v",
+    "ui": "workflows/h3-beta7-fix1_standard-cfg6_t2v.json",
+    "api": "api/h3-beta7-fix1_standard-cfg6_t2v.json",
+    "experimental": true
+  },
+  {
     "name": "h3-beta7-fix1_turbo4_i2v",
     "mode": "turbo4",
+    "task": "i2v",
     "ui": "workflows/h3-beta7-fix1_turbo4_i2v.json",
     "api": "api/h3-beta7-fix1_turbo4_i2v.json",
     "experimental": false
   },
   {
+    "name": "h3-beta7-fix1_turbo4_t2v",
+    "mode": "turbo4",
+    "task": "t2v",
+    "ui": "workflows/h3-beta7-fix1_turbo4_t2v.json",
+    "api": "api/h3-beta7-fix1_turbo4_t2v.json",
+    "experimental": false
+  },
+  {
     "name": "h3-beta7-fix1_turbo8_i2v",
     "mode": "turbo8",
+    "task": "i2v",
     "ui": "workflows/h3-beta7-fix1_turbo8_i2v.json",
     "api": "api/h3-beta7-fix1_turbo8_i2v.json",
     "experimental": false
   },
   {
+    "name": "h3-beta7-fix1_turbo8_t2v",
+    "mode": "turbo8",
+    "task": "t2v",
+    "ui": "workflows/h3-beta7-fix1_turbo8_t2v.json",
+    "api": "api/h3-beta7-fix1_turbo8_t2v.json",
+    "experimental": false
+  },
+  {
     "name": "h3-beta7-fix1_eros_i2v",
     "mode": "eros",
+    "task": "i2v",
     "ui": "workflows/h3-beta7-fix1_eros_i2v.json",
     "api": "api/h3-beta7-fix1_eros_i2v.json",
+    "experimental": true
+  },
+  {
+    "name": "h3-beta7-fix1_eros_t2v",
+    "mode": "eros",
+    "task": "t2v",
+    "ui": "workflows/h3-beta7-fix1_eros_t2v.json",
+    "api": "api/h3-beta7-fix1_eros_t2v.json",
     "experimental": true
   }
 ]

@@ -1,7 +1,7 @@
 {
   "version": "h3-beta7-fix1",
   "bundle_version": "0.1.0",
-  "default_mode": "eros",
+  "default_mode": "all",
   "comfy_commit": "46659e65e95920e5d29cae011b43b02699c0bfd3",
   "models": [
     {
