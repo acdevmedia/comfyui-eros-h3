@@ -23,6 +23,11 @@ try:
   for key,node in graph.items():
    kind=node['class_type'];assert kind in schemas,(path,kind,'missing node');s=schemas[kind];inputs=node['inputs']
    required=s['input'].get('required',{});optional=s['input'].get('optional',{})
+   for name,spec in list((required|optional).items()):  # DynamicCombo: the chosen option's own inputs are 'name.child'
+    if spec[0]=='COMFY_DYNAMICCOMBO_V3':
+     keys=[o['key'] for o in spec[1]['options']];assert inputs.get(name) in keys,(path,kind,name,inputs.get(name),keys)
+     chosen=next(o for o in spec[1]['options'] if o['key']==inputs[name])
+     for group in chosen['inputs'].values():optional|={f'{name}.{k}':v for k,v in group.items()}
    assert set(required)<=set(inputs),(path,kind,'missing',set(required)-set(inputs))
    assert set(inputs)<=set(required)|set(optional),(path,kind,'unknown inputs',set(inputs)-set(required)-set(optional))
    for name,value in inputs.items():
@@ -30,7 +35,7 @@ try:
     if isinstance(value,list):
      actual=schemas[graph[value[0]]['class_type']]['output'][value[1]]
      assert expected==actual or expected=='*',(path,kind,name,expected,actual)
-    elif isinstance(expected,list) and name not in ('unet_name','clip_name','vae_name','lora_name','image'):
+    elif isinstance(expected,list) and name not in ('unet_name','clip_name','vae_name','lora_name','image') and not (kind=='ModelAttentionBackend' and name=='attention'):  # backend list depends on the GPU; unknown names fall back to PyTorch
      assert value in expected,(path,kind,name,value,expected)
   print('Schema OK:',path.name)
  assert 'ACDEVVideoControls' in schemas and 'ACDEVSaveVideo' in schemas,'ACDEV custom nodes did not load'

@@ -6,7 +6,8 @@ spec=importlib.util.spec_from_file_location('video',ROOT/'custom_nodes/acdev_vid
 def flatten(ui):
  """Expand the single subgraph back into the flat graph ComfyUI executes."""
  (sg,)=ui['definitions']['subgraphs'];(outer,)=[n for n in ui['nodes'] if n['type']==sg['id']]
- nodes={n['id']:n for n in ui['nodes'] if n is not outer};nodes.update({n['id']:n for n in sg['nodes']})
+ nodes={n['id']:n for n in ui['nodes'] if n is not outer and n['type']!='MarkdownNote'}  # notes are UI-only
+ nodes.update({n['id']:n for n in sg['nodes']})
  top={l[0]:l for l in ui['links']};inner={l['id']:l for l in sg['links']};edges=set();promoted={}
  def name_of(node,slot):return node['inputs'][slot]['name']
  for l in sg['links']:
@@ -69,10 +70,19 @@ class BundleTests(unittest.TestCase):
     self.assertEqual(promoted,expected)  # every Shot settings control drives the value ComfyUI executes
     if 'BasicScheduler' in json.dumps(api):self.assertTrue({'steps','cfg'}<=set(promoted))  # H3 filmmaker controls
     (prompt_node,)=[k for k,n in api.items() if n['class_type']=='PrimitiveStringMultiline'];self.assertEqual(api[control]['inputs']['prompt'],[prompt_node,0])
-    (outer,)=[n for n in ui['nodes'] if n['type']==ui['definitions']['subgraphs'][0]['id']]
+    sg=ui['definitions']['subgraphs'][0];(outer,)=[n for n in ui['nodes'] if n['type']==sg['id']]
     self.assertEqual(len([i for i in outer['inputs'] if i.get('widget')]),len(outer['widgets_values']),'one value per widget slot or the UI shifts values')
     titles=[n.get('title') for n in ui['nodes']]
-    self.assertEqual(titles,['01 · Describe your shot']+(['Starting image'] if item['task']=='i2v' else [])+['02 · Shot settings','03 · Your video'])
+    h3='MiniMaxH3ImageToVideo' in json.dumps(api)
+    self.assertEqual(titles,['01 · Describe your shot']+(['Starting image'] if item['task']=='i2v' else [])+['02 · Shot settings','03 · Your video']+(['About speed and length'] if h3 else []))
+    if h3:  # speed defaults: SigmaShift -> int8 attention -> sparse attention -> scheduler and guider
+     (shift,)=[k for k,n in api.items() if n['class_type']=='MiniMaxH3SigmaShift'];(backend,)=[k for k,n in api.items() if n['class_type']=='ModelAttentionBackend'];(sparse,)=[k for k,n in api.items() if n['class_type']=='BlockSparseAttention']
+     self.assertEqual(api[backend]['inputs'],{'model':[shift,0],'attention':'comfy kitchen attention'})
+     self.assertEqual(api[sparse]['inputs']['model'],[backend,0]);self.assertEqual(api[sparse]['inputs']['selection'],'sol-attn');self.assertEqual(api[sparse]['inputs']['selection.tau'],1.3)
+     for c in ('BasicScheduler','CFGGuider'):self.assertEqual([n['inputs']['model'] for n in api.values() if n['class_type']==c],[[sparse,0]])
+     (s_ui,)=[n for n in sg['nodes'] if n['type']=='BlockSparseAttention'];self.assertEqual(s_ui['widgets_values'],['sol-attn',1.3,0.2,1.0,'',12288,256,'exact_kv_and_rows',False])
+     (note,)=[n for n in ui['nodes'] if n['type']=='MarkdownNote'];self.assertIn('tau',note['widgets_values'][0])
+     self.assertEqual(api[control]['inputs']['duration'],30.0)  # spots need 30 s
     self.assertEqual(api[seed]['inputs'],{'seed':0})  # API default: server-side random seed
     self.assertRegex(Path(item['ui']).name,r'^\d\d [A-Z][\w -]+ - (Image|Text) to Video\.json$')
     for k,n in api.items():

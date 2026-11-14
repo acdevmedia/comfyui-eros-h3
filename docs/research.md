@@ -39,3 +39,16 @@ For I2V, start with **subject action, camera movement, environment response and 
 ## Deployment gate
 
 These repositories now have Git remotes, container build/publish automation, versioned release assets and Hub configuration. Current build results are recorded in VALIDATION.md. CPU installation/schema checks do not establish GPU generation quality or peak memory. Runpod Hub submission and public template publication are deferred until GPU tests pass. The Hub readiness check only verifies that ComfyUI starts after provisioning; it does not generate a video.
+
+## Long-clip speed (H3)
+
+GPU logs from a 40 s, 1024×576 Eros text-to-video job on an A100 80 GB: 974 frames, 287 latent frames × 576 tokens ≈ 165k video tokens, 232 s per step, 31 min sampling, about 1 min decode. There was no weight offloading. The 15 s job (≈ 62k tokens) took about 6 min. Estimated attention share: ~60% of compute at 15 s and ~80% at 40 s, which is why time grows faster than length.
+
+Defaults adopted from ComfyUI at the pinned commit (`comfy_extras/nodes_sparse_attention.py`, `nodes_model_advanced.py`) and Comfy-Org's `video_fastvideo_fasth3_i2v` template: SigmaShift → ModelAttentionBackend(comfy kitchen int8) → BlockSparseAttention.
+- The template uses `vsa`, which needs FastH3 weights trained with VSA gates. 10Eros beta7 fix1 is not, so the bundle uses training-free `sol-attn` at its default tau 1.3.
+- comfy-kitchen's `sol_attn` kernel runs on sm_80+ (tuned for sm_120 Blackwell). The sparse path needs bf16 activations and head_dim 128 (H3: 56×128). Anything else falls back to the dense backend.
+- With shift 12, start_percent 0.2 keeps Eros steps 1–2 of 8 (and standard steps 1–4 of 20) dense.
+
+Not adopted: segment-and-extend with `MiniMaxH3AddGuide`. It would keep each piece within the 5–15 s training range and make cost grow linearly with length, but it is a larger workflow and has seams to judge. Also not adopted: a two-stage latent upscale (ComfyUI has `MiniMaxH3LatentUpscaleWithModel`, but no H3 upscaler weights are published).
+
+CPU threading is not a lever. Sampling is GPU-bound with weights resident, and the CPU work is a few seconds of MP4 muxing per clip; thread budgets already follow the cgroup quota.

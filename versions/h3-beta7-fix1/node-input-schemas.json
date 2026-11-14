@@ -198,5 +198,36 @@
       "length",
       "batch_size"
     ]
+  },
+  "ModelAttentionBackend": {
+    "allowed": [
+      "attention",
+      "model"
+    ],
+    "required": [
+      "attention",
+      "model"
+    ]
+  },
+  "BlockSparseAttention": {
+    "allowed": [
+      "dense_blocks",
+      "end_percent",
+      "extra_tokens",
+      "min_tokens",
+      "model",
+      "selection",
+      "selection.keep_percent",
+      "selection.tau",
+      "sink_conditioning",
+      "start_percent",
+      "verbose"
+    ],
+    "required": [
+      "end_percent",
+      "model",
+      "selection",
+      "start_percent"
+    ]
   }
 }

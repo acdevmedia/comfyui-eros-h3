@@ -16,6 +16,8 @@ S={
  'LoraLoaderModelOnly':({'model':'MODEL'},['MODEL']),
  'ModelSamplingSD3':({'model':'MODEL'},['MODEL']),
  'MiniMaxH3SigmaShift':({'model':'MODEL'},['MODEL']),
+ 'ModelAttentionBackend':({'model':'MODEL'},['MODEL']),
+ 'BlockSparseAttention':({'model':'MODEL'},['MODEL']),
  'EmptyHunyuanLatentVideo':({},['LATENT']),
  'WanImageToVideo':({'positive':'CONDITIONING','negative':'CONDITIONING','vae':'VAE','start_image':'IMAGE'},['CONDITIONING','CONDITIONING','LATENT']),
  'MiniMaxH3ImageToVideo':({'clip':'CLIP','vae':'VAE','first_frame':'IMAGE'},['CONDITIONING','LATENT']),
@@ -52,6 +54,9 @@ class Graph:
    'UNETLoader':['unet_name','weight_dtype'],'CLIPLoader':['clip_name','type','device'],'VAELoader':['vae_name'],
    'LoadImage':['image'],'CLIPTextEncode':['text'],'LoraLoaderModelOnly':['lora_name','strength_model'],
    'ModelSamplingSD3':['shift'],'MiniMaxH3SigmaShift':['shift_video','shift_audio'],
+   'ModelAttentionBackend':['attention'],
+   # DynamicCombo: the chosen method, then its own setting, then the rest (as Comfy-Org's FastH3 template)
+   'BlockSparseAttention':['selection','selection.tau','start_percent','end_percent','dense_blocks','min_tokens','extra_tokens','sink_conditioning','verbose'],
    'EmptyHunyuanLatentVideo':['width','height','length','batch_size'],
    'WanImageToVideo':['width','height','length','batch_size'],
    'MiniMaxH3ImageToVideo':['prompt','width','height','length'],
@@ -164,11 +169,18 @@ def subgraph_ui(g,name,subgraph_name):
  definition=dict(id=sgid,version=1,state=dict(lastGroupId=0,lastNodeId=sid,lastLinkId=next_link[0],lastRerouteId=0),revision=0,config={},name=subgraph_name,
   inputNode=dict(id=-10,bounding=[0,0,180,40+30*len(sg_inputs)]),outputNode=dict(id=-20,bounding=[right,0,140,40+30*len(sg_outputs)]),
   inputs=sg_inputs,outputs=sg_outputs,widgets=[],nodes=[nodes[i] for i in inner],groups=[],links=sorted(inner_links,key=lambda l:l['id']),extra={})
- return dict(id=str(uuid.uuid5(ns,name+'/workflow')),revision=0,last_node_id=sid,last_link_id=next_link[0],nodes=[n for n in nodes_out if n['type']!='ACDEVSaveVideo']+[outer]+[n for n in nodes_out if n['type']=='ACDEVSaveVideo'],links=sorted(top_links),groups=[],
+ note=[] if 'BlockSparseAttention' not in json.dumps(g.api) else [dict(id=sid+1,type='MarkdownNote',title='About speed and length',color='#432',bgcolor='#653',
+  pos=[1760,100],size=[560,960],flags={},order=3,mode=0,inputs=[],outputs=[],properties={},widgets_values=[SPEED_NOTE.read_text()])]  # UI only: not in the executed graph
+ return dict(id=str(uuid.uuid5(ns,name+'/workflow')),revision=0,last_node_id=sid+len(note),last_link_id=next_link[0],nodes=[n for n in nodes_out if n['type']!='ACDEVSaveVideo']+[outer]+[n for n in nodes_out if n['type']=='ACDEVSaveVideo']+note,links=sorted(top_links),groups=[],
   definitions=dict(subgraphs=[definition]),config={},extra=dict(ds=dict(scale=0.75,offset=[40,20])),version=0.4)
 def slot(ref,n):return [ref[0],n]
 LABELS={'eros':'Eros','standard':'Standard 20-step','turbo':'Turbo','t2v-turbo':'Turbo','t2v':'Standard 20-step','remix':'Remix'}
 TASKS={'i2v':'Image to Video','t2v':'Text to Video'}
+# Training-free Sol-Attn sparse attention. Stays dense for the first 20% of the noise schedule
+# (Eros: steps 1-2 of 8, which set composition and motion) and below 12,288 tokens.
+SPARSE={'selection':'sol-attn','selection.tau':1.3,'start_percent':0.2,'end_percent':1.0,'dense_blocks':'',
+ 'min_tokens':12288,'extra_tokens':256,'sink_conditioning':'exact_kv_and_rows','verbose':False}
+SPEED_NOTE=pathlib.Path(__file__).with_name('speed-note.md')
 PROMPT='A cinematic shot. The subject moves naturally as the camera slowly tracks forward.'
 for project,version,modes in [('EROSH3-SETUP', 'h3-beta7-fix1', ['eros', 'standard'])]:
  root=ROOT;v=root/'versions'/version;profile=json.loads((v/'profile.json').read_text());catalog=[]
@@ -180,7 +192,7 @@ for project,version,modes in [('EROSH3-SETUP', 'h3-beta7-fix1', ['eros', 'standa
    def file(d,fragment=''):return next(pathlib.Path(m['file']).name for m in active if m['directory']==d and fragment in m['file'])
    prm=g.add('PrimitiveStringMultiline',dict(value=PROMPT),'01 · Describe your shot')
    image=g.add('LoadImage',dict(image='reference.png'),'Starting image') if task=='i2v' else None
-   ctrl=g.add('ACDEVVideoControls',dict(**({'image':image} if image else {}),family='wan' if wan else 'h3',width=832 if wan else 1024,height=480 if wan else 576,duration=5.0,exact_frame=False,prompt=prm,negative_prompt='low quality, blurry, overexposed, static frame, frozen motion, temporal flicker, jitter, distorted anatomy, extra limbs, malformed hands, duplicated subjects, text, subtitles, watermark, compression artifacts'))
+   ctrl=g.add('ACDEVVideoControls',dict(**({'image':image} if image else {}),family='wan' if wan else 'h3',width=832 if wan else 1024,height=480 if wan else 576,duration=5.0 if wan else 30.0,exact_frame=False,prompt=prm,negative_prompt='low quality, blurry, overexposed, static frame, frozen motion, temporal flicker, jitter, distorted anatomy, extra limbs, malformed hands, duplicated subjects, text, subtitles, watermark, compression artifacts'))
    if image:image=g.add('ImageScale',dict(image=image,upscale_method='lanczos',width=ctrl,height=slot(ctrl,1),crop='center'),'Fit starting image to frame')
    # Separate node so only sampling re-runs per job; prompt/image encodes stay cached.
    seed=g.add('ACDEVRandomSeed',dict(seed=0),'Seed')
@@ -233,6 +245,9 @@ for project,version,modes in [('EROSH3-SETUP', 'h3-beta7-fix1', ['eros', 'standa
     m=g.add('UNETLoader',dict(unet_name=file('diffusion_models'),weight_dtype='default'))
     # 10Eros has its eight-step turbo merged in and base H3 standard samples without one: no LoRA on any H3 path.
     m=g.add('MiniMaxH3SigmaShift',dict(model=m,shift_video=12.0,shift_audio=3.0))
+    # Speed defaults (see SPEED_NOTE): same chain as Comfy-Org's FastH3 template.
+    m=g.add('ModelAttentionBackend',dict(model=m,attention='comfy kitchen attention'),'Fast attention (int8)')
+    m=g.add('BlockSparseAttention',{'model':m,**SPARSE},'Sparse attention (long clips)')
     guide=g.add('CFGGuider',dict(model=m,positive=cond,negative=neg,cfg=h3_cfg))
     sampler=g.add('KSamplerSelect',dict(sampler_name='euler' if mode=='eros' else 'res_multistep'))
     sig=g.add('BasicScheduler',dict(model=m,scheduler='simple',steps=20 if mode=='standard' else 8,denoise=1.0));noise=g.add('RandomNoise',dict(noise_seed=seed))
