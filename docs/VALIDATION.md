@@ -4,7 +4,7 @@ Checked 13 November 2026.
 
 Container build and all CPU smoke checks passed for release candidate `v0.1.0-rc.2`: [GitHub Actions](https://github.com/acdevmedia/comfyui-eros-h3/actions/runs/43521507064). Both image installation and ComfyUI startup succeeded. Every packaged API workflow passed live node-schema validation. Authenticated output listing, downloads, thumbnails, ZIP downloads and read-only access checks passed; zip/unzip and AWS CLI are installed, and `aws --version` succeeds. Source control/frame-grid/seed/hash-cache tests and CPU thread quota tests also passed.
 
-Release images are public in GHCR; anonymous manifest access was verified. A private, digest-pinned Runpod test template has been created. Creating the template does not start a Pod or incur GPU usage.
+Release images are public in GHCR; anonymous manifest access was verified. A private Runpod test template has been created; it follows the model-version tag (it was briefly digest-pinned). Creating the template does not start a Pod or incur GPU usage.
 
 Image digest: `ghcr.io/acdevmedia/erosh3-comfyui@sha256:f0da72fdc0fae4613893aa86520f3fac5d45af629000de7eaa0906fd46023041`.
 
