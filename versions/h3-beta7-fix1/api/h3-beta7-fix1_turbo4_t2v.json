@@ -1,28 +1,40 @@
 {
   "1": {
+    "class_type": "PrimitiveStringMultiline",
+    "inputs": {
+      "value": "A cinematic shot. The subject moves naturally as the camera slowly tracks forward."
+    },
+    "_meta": {
+      "title": "01 \u00b7 Describe your shot"
+    }
+  },
+  "2": {
     "class_type": "ACDEVVideoControls",
     "inputs": {
       "family": "h3",
       "width": 1024,
       "height": 576,
       "duration": 5.0,
-      "prompt": "A cinematic shot. The subject moves naturally as the camera slowly tracks forward.",
+      "prompt": [
+        "1",
+        0
+      ],
       "negative_prompt": "low quality, blurry, overexposed, static frame, frozen motion, temporal flicker, jitter, distorted anatomy, extra limbs, malformed hands, duplicated subjects, text, subtitles, watermark, compression artifacts"
     },
     "_meta": {
       "title": "ACDEVVideoControls"
     }
   },
-  "2": {
+  "3": {
     "class_type": "ACDEVRandomSeed",
     "inputs": {
       "seed": 0
     },
     "_meta": {
-      "title": "Seed (randomized every job)"
+      "title": "Seed"
     }
   },
-  "3": {
+  "4": {
     "class_type": "CLIPLoader",
     "inputs": {
       "clip_name": "qwen3vl_32b_minimax_h3_nvfp4_awq.safetensors",
@@ -33,7 +45,7 @@
       "title": "CLIPLoader"
     }
   },
-  "4": {
+  "5": {
     "class_type": "VAELoader",
     "inputs": {
       "vae_name": "minimax_h3_video_vae_int8_convrot.safetensors"
@@ -42,47 +54,63 @@
       "title": "VAELoader"
     }
   },
-  "5": {
-    "class_type": "CLIPTextEncode",
-    "inputs": {
-      "clip": [
-        "3",
-        0
-      ],
-      "text": [
-        "1",
-        5
-      ]
-    },
-    "_meta": {
-      "title": "Negative prompt (inactive at CFG 1)"
-    }
-  },
   "6": {
     "class_type": "MiniMaxH3ImageToVideo",
     "inputs": {
       "clip": [
-        "3",
-        0
-      ],
-      "vae": [
         "4",
         0
       ],
+      "vae": [
+        "5",
+        0
+      ],
       "prompt": [
-        "1",
-        4
+        "2",
+        5
       ],
       "width": [
-        "1",
+        "2",
         0
       ],
       "height": [
-        "1",
+        "2",
         1
       ],
       "length": [
-        "1",
+        "2",
+        2
+      ]
+    },
+    "_meta": {
+      "title": "Negative prompt"
+    }
+  },
+  "7": {
+    "class_type": "MiniMaxH3ImageToVideo",
+    "inputs": {
+      "clip": [
+        "4",
+        0
+      ],
+      "vae": [
+        "5",
+        0
+      ],
+      "prompt": [
+        "2",
+        4
+      ],
+      "width": [
+        "2",
+        0
+      ],
+      "height": [
+        "2",
+        1
+      ],
+      "length": [
+        "2",
         2
       ]
     },
@@ -90,7 +118,7 @@
       "title": "MiniMaxH3ImageToVideo"
     }
   },
-  "7": {
+  "8": {
     "class_type": "UNETLoader",
     "inputs": {
       "unet_name": "minimax_h3_fl2va_pruned_int8_convrot.safetensors",
@@ -100,11 +128,11 @@
       "title": "UNETLoader"
     }
   },
-  "8": {
+  "9": {
     "class_type": "LoraLoaderModelOnly",
     "inputs": {
       "model": [
-        "7",
+        "8",
         0
       ],
       "lora_name": "minimax_h3_fl2v_turbo_4step_v1.0_768p_comfyui_bf16.safetensors",
@@ -114,11 +142,11 @@
       "title": "LoraLoaderModelOnly"
     }
   },
-  "9": {
+  "10": {
     "class_type": "MiniMaxH3SigmaShift",
     "inputs": {
       "model": [
-        "8",
+        "9",
         0
       ],
       "shift_video": 12.0,
@@ -128,19 +156,19 @@
       "title": "MiniMaxH3SigmaShift"
     }
   },
-  "10": {
+  "11": {
     "class_type": "CFGGuider",
     "inputs": {
       "model": [
-        "9",
+        "10",
         0
       ],
       "positive": [
-        "6",
+        "7",
         0
       ],
       "negative": [
-        "5",
+        "6",
         0
       ],
       "cfg": 1.0
@@ -149,7 +177,7 @@
       "title": "CFGGuider"
     }
   },
-  "11": {
+  "12": {
     "class_type": "KSamplerSelect",
     "inputs": {
       "sampler_name": "res_multistep"
@@ -158,11 +186,11 @@
       "title": "KSamplerSelect"
     }
   },
-  "12": {
+  "13": {
     "class_type": "BasicScheduler",
     "inputs": {
       "model": [
-        "9",
+        "10",
         0
       ],
       "scheduler": "simple",
@@ -173,11 +201,11 @@
       "title": "BasicScheduler"
     }
   },
-  "13": {
+  "14": {
     "class_type": "RandomNoise",
     "inputs": {
       "noise_seed": [
-        "2",
+        "3",
         0
       ]
     },
@@ -185,27 +213,27 @@
       "title": "RandomNoise"
     }
   },
-  "14": {
+  "15": {
     "class_type": "SamplerCustomAdvanced",
     "inputs": {
       "noise": [
-        "13",
+        "14",
         0
       ],
       "guider": [
-        "10",
-        0
-      ],
-      "sampler": [
         "11",
         0
       ],
-      "sigmas": [
+      "sampler": [
         "12",
         0
       ],
+      "sigmas": [
+        "13",
+        0
+      ],
       "latent_image": [
-        "6",
+        "7",
         1
       ]
     },
@@ -213,15 +241,15 @@
       "title": "SamplerCustomAdvanced"
     }
   },
-  "15": {
+  "16": {
     "class_type": "VAEDecode",
     "inputs": {
       "samples": [
-        "14",
+        "15",
         0
       ],
       "vae": [
-        "4",
+        "5",
         0
       ]
     },
@@ -229,7 +257,7 @@
       "title": "VAEDecode"
     }
   },
-  "16": {
+  "17": {
     "class_type": "VAELoader",
     "inputs": {
       "vae_name": "minimax_h3_audio_vae_fp32.safetensors"
@@ -238,15 +266,15 @@
       "title": "VAELoader"
     }
   },
-  "17": {
+  "18": {
     "class_type": "VAEDecodeAudio",
     "inputs": {
       "samples": [
-        "14",
+        "15",
         0
       ],
       "vae": [
-        "16",
+        "17",
         0
       ]
     },
@@ -254,19 +282,19 @@
       "title": "VAEDecodeAudio"
     }
   },
-  "18": {
+  "19": {
     "class_type": "CreateVideo",
     "inputs": {
       "images": [
-        "15",
+        "16",
         0
       ],
       "fps": [
-        "1",
+        "2",
         3
       ],
       "audio": [
-        "17",
+        "18",
         0
       ]
     },
@@ -274,16 +302,16 @@
       "title": "CreateVideo"
     }
   },
-  "19": {
+  "20": {
     "class_type": "ACDEVSaveVideo",
     "inputs": {
       "video": [
-        "18",
+        "19",
         0
       ],
       "filename_prefix": "video/h3-beta7-fix1/turbo4/t2v",
       "seed": [
-        "2",
+        "3",
         0
       ]
     },

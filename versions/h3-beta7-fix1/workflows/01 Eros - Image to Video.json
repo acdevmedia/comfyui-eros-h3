@@ -1,22 +1,59 @@
 {
-  "id": "345a3e73-7d61-59e0-9077-b6e13a834740",
+  "id": "56069dc7-efe9-54dc-a540-ca5f52ddf87e",
   "revision": 0,
-  "last_node_id": 20,
-  "last_link_id": 42,
+  "last_node_id": 21,
+  "last_link_id": 46,
   "nodes": [
     {
-      "id": 2,
+      "id": 1,
+      "type": "PrimitiveStringMultiline",
+      "pos": [
+        0,
+        100
+      ],
+      "size": [
+        480,
+        220
+      ],
+      "flags": {},
+      "order": 0,
+      "mode": 0,
+      "inputs": [],
+      "outputs": [
+        {
+          "name": "STRING",
+          "type": "STRING",
+          "links": [
+            43
+          ]
+        }
+      ],
+      "properties": {
+        "Node name for S&R": "PrimitiveStringMultiline",
+        "widget_order": [
+          "value"
+        ]
+      },
+      "widgets_values": [
+        "A cinematic shot. The subject moves naturally as the camera slowly tracks forward."
+      ],
+      "title": "01 \u00b7 Describe your shot",
+      "color": "#28524d",
+      "bgcolor": "#172f2c"
+    },
+    {
+      "id": 3,
       "type": "LoadImage",
       "pos": [
         0,
-        0
+        380
       ],
       "size": [
-        360,
-        420
+        480,
+        680
       ],
       "flags": {},
-      "order": 1,
+      "order": 2,
       "mode": 0,
       "inputs": [],
       "outputs": [
@@ -24,7 +61,7 @@
           "name": "IMAGE",
           "type": "IMAGE",
           "links": [
-            35
+            44
           ]
         },
         {
@@ -43,69 +80,159 @@
         "reference.png",
         "image"
       ],
-      "title": "Upload reference image"
+      "title": "Starting image",
+      "color": "#334c63",
+      "bgcolor": "#1b2b3b"
     },
     {
-      "id": 3,
-      "type": "ACDEVRandomSeed",
+      "id": 21,
+      "type": "b8f96aa8-56af-5c27-bc5d-38f585a6b47f",
+      "title": "02 \u00b7 Shot settings",
+      "color": "#484661",
+      "bgcolor": "#29283d",
       "pos": [
-        0,
-        460
+        540,
+        100
       ],
       "size": [
-        360,
-        110
+        520,
+        960
       ],
       "flags": {},
-      "order": 2,
+      "order": 1,
       "mode": 0,
-      "inputs": [],
+      "inputs": [
+        {
+          "name": "width",
+          "label": "Width",
+          "type": "INT",
+          "link": null,
+          "widget": {
+            "name": "width"
+          }
+        },
+        {
+          "name": "height",
+          "label": "Height",
+          "type": "INT",
+          "link": null,
+          "widget": {
+            "name": "height"
+          }
+        },
+        {
+          "name": "duration",
+          "label": "Duration (seconds)",
+          "type": "FLOAT",
+          "link": null,
+          "widget": {
+            "name": "duration"
+          }
+        },
+        {
+          "name": "seed",
+          "label": "Seed",
+          "type": "INT",
+          "link": null,
+          "widget": {
+            "name": "seed"
+          }
+        },
+        {
+          "name": "steps",
+          "label": "Steps",
+          "type": "INT",
+          "link": null,
+          "widget": {
+            "name": "steps"
+          }
+        },
+        {
+          "name": "cfg",
+          "label": "CFG",
+          "type": "FLOAT",
+          "link": null,
+          "widget": {
+            "name": "cfg"
+          }
+        },
+        {
+          "name": "negative_prompt",
+          "label": "Negative prompt (used when CFG > 1)",
+          "type": "STRING",
+          "link": null,
+          "widget": {
+            "name": "negative_prompt"
+          }
+        },
+        {
+          "name": "prompt",
+          "label": "Prompt \u2014 describe the shot",
+          "type": "STRING",
+          "link": 43,
+          "widget": {
+            "name": "prompt"
+          }
+        },
+        {
+          "name": "reference_image",
+          "label": "Starting image \u2014 upload your own",
+          "type": "IMAGE",
+          "link": 44
+        }
+      ],
       "outputs": [
         {
-          "name": "INT",
+          "name": "video",
+          "type": "VIDEO",
+          "links": [
+            45
+          ]
+        },
+        {
+          "name": "seed",
           "type": "INT",
           "links": [
-            36,
-            34
+            46
           ]
         }
       ],
-      "properties": {
-        "Node name for S&R": "ACDEVRandomSeed",
-        "widget_order": [
-          "seed"
-        ]
-      },
+      "properties": {},
       "widgets_values": [
+        1024,
+        576,
+        5.0,
         0,
-        "randomize"
-      ],
-      "title": "Seed (randomized every job)"
+        8,
+        1.0,
+        "low quality, blurry, overexposed, static frame, frozen motion, temporal flicker, jitter, distorted anatomy, extra limbs, malformed hands, duplicated subjects, text, subtitles, watermark, compression artifacts",
+        "A cinematic shot. The subject moves naturally as the camera slowly tracks forward."
+      ]
     },
     {
-      "id": 19,
+      "id": 20,
       "type": "ACDEVSaveVideo",
       "pos": [
-        960,
-        0
+        1120,
+        100
       ],
       "size": [
-        480,
-        520
+        580,
+        960
       ],
       "flags": {},
-      "order": 18,
+      "order": 19,
       "mode": 0,
       "inputs": [
         {
           "name": "video",
           "type": "VIDEO",
-          "link": 42
+          "link": 45
         },
         {
           "name": "seed",
           "type": "INT",
-          "link": 34
+          "link": 46
         }
       ],
       "outputs": [],
@@ -116,155 +243,69 @@
         ]
       },
       "widgets_values": [
-        "video/h3-beta7-fix1/standard-cfg6/i2v"
-      ]
-    },
-    {
-      "id": 20,
-      "type": "a50aa1fd-7c9a-5b54-bc77-03d95fad236c",
-      "title": "Generate video: H3 standard-cfg6 (image to video)",
-      "pos": [
-        420,
-        0
+        "video/h3-beta7-fix1/eros/i2v"
       ],
-      "size": [
-        480,
-        620
-      ],
-      "flags": {},
-      "order": 1,
-      "mode": 0,
-      "inputs": [
-        {
-          "name": "reference_image",
-          "type": "IMAGE",
-          "link": 35
-        },
-        {
-          "name": "seed",
-          "type": "INT",
-          "link": 36,
-          "widget": {
-            "name": "seed"
-          }
-        },
-        {
-          "name": "prompt",
-          "type": "STRING",
-          "widget": {
-            "name": "prompt"
-          },
-          "link": null
-        },
-        {
-          "name": "negative_prompt",
-          "type": "STRING",
-          "widget": {
-            "name": "negative_prompt"
-          },
-          "link": null
-        },
-        {
-          "name": "width",
-          "type": "INT",
-          "widget": {
-            "name": "width"
-          },
-          "link": null
-        },
-        {
-          "name": "height",
-          "type": "INT",
-          "widget": {
-            "name": "height"
-          },
-          "link": null
-        },
-        {
-          "name": "duration",
-          "type": "FLOAT",
-          "widget": {
-            "name": "duration"
-          },
-          "link": null
-        }
-      ],
-      "outputs": [
-        {
-          "name": "video",
-          "type": "VIDEO",
-          "links": [
-            42
-          ]
-        }
-      ],
-      "properties": {},
-      "widgets_values": [
-        0,
-        "A cinematic shot. The subject moves naturally as the camera slowly tracks forward.",
-        "low quality, blurry, overexposed, static frame, frozen motion, temporal flicker, jitter, distorted anatomy, extra limbs, malformed hands, duplicated subjects, text, subtitles, watermark, compression artifacts",
-        1024,
-        576,
-        5.0
-      ]
+      "title": "03 \u00b7 Your video",
+      "color": "#3c5540",
+      "bgcolor": "#223025"
     }
   ],
   "links": [
     [
-      34,
-      3,
-      0,
-      19,
+      43,
       1,
-      "INT"
+      0,
+      21,
+      7,
+      "STRING"
     ],
     [
-      35,
-      2,
+      44,
+      3,
       0,
-      20,
-      0,
+      21,
+      8,
       "IMAGE"
     ],
     [
-      36,
-      3,
+      45,
+      21,
       0,
+      20,
+      0,
+      "VIDEO"
+    ],
+    [
+      46,
+      21,
+      1,
       20,
       1,
       "INT"
-    ],
-    [
-      42,
-      20,
-      0,
-      19,
-      0,
-      "VIDEO"
     ]
   ],
   "groups": [],
   "definitions": {
     "subgraphs": [
       {
-        "id": "a50aa1fd-7c9a-5b54-bc77-03d95fad236c",
+        "id": "b8f96aa8-56af-5c27-bc5d-38f585a6b47f",
         "version": 1,
         "state": {
           "lastGroupId": 0,
-          "lastNodeId": 20,
-          "lastLinkId": 42,
+          "lastNodeId": 21,
+          "lastLinkId": 46,
           "lastRerouteId": 0
         },
         "revision": 0,
         "config": {},
-        "name": "Generate video: H3 standard-cfg6 (image to video)",
+        "name": "Shot settings \u2014 Image to Video \u2014 Eros",
         "inputNode": {
           "id": -10,
           "bounding": [
             0,
             0,
             180,
-            250
+            310
           ]
         },
         "outputNode": {
@@ -273,114 +314,159 @@
             2820,
             0,
             140,
-            70
+            100
           ]
         },
         "inputs": [
           {
-            "id": "b5765667-a6de-5d86-bab5-7babe2720585",
-            "name": "reference_image",
-            "type": "IMAGE",
+            "id": "e7920e1d-f549-52bc-bf20-a7072b7858a3",
+            "name": "width",
+            "type": "INT",
             "linkIds": [
-              7,
-              14
+              36
             ],
             "pos": [
               200,
               40
-            ]
-          },
-          {
-            "id": "91773a3b-4ad4-54a8-af7f-0484593255e8",
-            "name": "seed",
-            "type": "INT",
-            "linkIds": [
-              20
             ],
-            "pos": [
-              200,
-              70
-            ]
+            "label": "Width"
           },
           {
-            "id": "79b67ece-4046-549a-a8cc-79ea9e396c7e",
-            "name": "prompt",
-            "type": "STRING",
+            "id": "b3fb67e9-c968-58c1-bd49-e8d888676bb3",
+            "name": "height",
+            "type": "INT",
             "linkIds": [
               37
             ],
             "pos": [
               200,
-              100
-            ]
+              70
+            ],
+            "label": "Height"
           },
           {
-            "id": "0543324f-180b-524d-bc95-85f447d00ac1",
-            "name": "negative_prompt",
-            "type": "STRING",
+            "id": "88011808-7c34-5008-a6e6-ff936f690773",
+            "name": "duration",
+            "type": "FLOAT",
             "linkIds": [
               38
             ],
             "pos": [
               200,
-              130
-            ]
+              100
+            ],
+            "label": "Duration (seconds)"
           },
           {
-            "id": "b1e6afb9-3005-5084-bc54-88ce2081699e",
-            "name": "width",
+            "id": "4a897be9-601d-556f-b573-55763396047d",
+            "name": "seed",
             "type": "INT",
             "linkIds": [
               39
             ],
             "pos": [
               200,
-              160
-            ]
+              130
+            ],
+            "label": "Seed"
           },
           {
-            "id": "385c0932-0126-5473-b5c7-932c06028f31",
-            "name": "height",
+            "id": "3a004820-f6f0-5cd7-a773-dbc89333dbe1",
+            "name": "steps",
             "type": "INT",
             "linkIds": [
               40
             ],
             "pos": [
               200,
-              190
-            ]
+              160
+            ],
+            "label": "Steps"
           },
           {
-            "id": "5a8ac847-dcd2-56d3-926b-e7c2e5bfd7cc",
-            "name": "duration",
+            "id": "e85c1655-63f3-5e41-a5d7-b535b63d36e4",
+            "name": "cfg",
             "type": "FLOAT",
             "linkIds": [
               41
             ],
             "pos": [
               200,
+              190
+            ],
+            "label": "CFG"
+          },
+          {
+            "id": "858c504f-2838-58bc-af69-59b933e5917d",
+            "name": "negative_prompt",
+            "type": "STRING",
+            "linkIds": [
+              42
+            ],
+            "pos": [
+              200,
               220
-            ]
+            ],
+            "label": "Negative prompt (used when CFG > 1)"
+          },
+          {
+            "id": "9161856c-81ed-5d18-b72b-eadd0fd9e3c8",
+            "name": "prompt",
+            "type": "STRING",
+            "linkIds": [
+              1
+            ],
+            "pos": [
+              200,
+              250
+            ],
+            "label": "Prompt \u2014 describe the shot"
+          },
+          {
+            "id": "ebf97523-8cdb-5bdc-91a1-29a893e805dc",
+            "name": "reference_image",
+            "type": "IMAGE",
+            "linkIds": [
+              8,
+              15
+            ],
+            "pos": [
+              200,
+              280
+            ],
+            "label": "Starting image \u2014 upload your own"
           }
         ],
         "outputs": [
           {
-            "id": "1a78a214-b496-5165-9005-f1ca1c52a941",
+            "id": "d3d00760-74c8-58bc-a14e-a9989b96312c",
             "name": "video",
             "type": "VIDEO",
             "linkIds": [
-              33
+              34
             ],
             "pos": [
               2840,
               40
+            ]
+          },
+          {
+            "id": "4f79928f-3a0b-5ca5-9db8-e9551b8b1fe5",
+            "name": "seed",
+            "type": "INT",
+            "linkIds": [
+              35
+            ],
+            "pos": [
+              2840,
+              70
             ]
           }
         ],
         "widgets": [],
         "nodes": [
           {
-            "id": 1,
+            "id": 2,
             "type": "ACDEVVideoControls",
             "pos": [
               300,
@@ -391,24 +477,16 @@
               540
             ],
             "flags": {},
-            "order": 0,
+            "order": 1,
             "mode": 0,
             "inputs": [
               {
                 "name": "prompt",
                 "type": "STRING",
+                "link": 1,
                 "widget": {
                   "name": "prompt"
-                },
-                "link": 37
-              },
-              {
-                "name": "negative_prompt",
-                "type": "STRING",
-                "widget": {
-                  "name": "negative_prompt"
-                },
-                "link": 38
+                }
               },
               {
                 "name": "width",
@@ -416,7 +494,7 @@
                 "widget": {
                   "name": "width"
                 },
-                "link": 39
+                "link": 36
               },
               {
                 "name": "height",
@@ -424,7 +502,7 @@
                 "widget": {
                   "name": "height"
                 },
-                "link": 40
+                "link": 37
               },
               {
                 "name": "duration",
@@ -432,18 +510,18 @@
                 "widget": {
                   "name": "duration"
                 },
-                "link": 41
+                "link": 38
+              },
+              {
+                "name": "negative_prompt",
+                "type": "STRING",
+                "widget": {
+                  "name": "negative_prompt"
+                },
+                "link": 42
               }
             ],
             "outputs": [
-              {
-                "name": "INT",
-                "type": "INT",
-                "links": [
-                  4,
-                  11
-                ]
-              },
               {
                 "name": "INT",
                 "type": "INT",
@@ -461,24 +539,32 @@
                 ]
               },
               {
+                "name": "INT",
+                "type": "INT",
+                "links": [
+                  7,
+                  14
+                ]
+              },
+              {
                 "name": "FLOAT",
                 "type": "FLOAT",
                 "links": [
-                  31
+                  32
                 ]
               },
               {
                 "name": "STRING",
                 "type": "STRING",
                 "links": [
-                  10
+                  11
                 ]
               },
               {
                 "name": "STRING",
                 "type": "STRING",
                 "links": [
-                  3
+                  4
                 ]
               }
             ],
@@ -498,23 +584,68 @@
               1024,
               576,
               5.0,
-              "A cinematic shot. The subject moves naturally as the camera slowly tracks forward.",
+              "",
               "low quality, blurry, overexposed, static frame, frozen motion, temporal flicker, jitter, distorted anatomy, extra limbs, malformed hands, duplicated subjects, text, subtitles, watermark, compression artifacts"
             ]
           },
           {
             "id": 4,
-            "type": "CLIPLoader",
+            "type": "ACDEVRandomSeed",
             "pos": [
               300,
               580
             ],
             "size": [
               340,
-              174
+              146
             ],
             "flags": {},
             "order": 3,
+            "mode": 0,
+            "inputs": [
+              {
+                "name": "seed",
+                "type": "INT",
+                "widget": {
+                  "name": "seed"
+                },
+                "link": 39
+              }
+            ],
+            "outputs": [
+              {
+                "name": "INT",
+                "type": "INT",
+                "links": [
+                  21,
+                  35
+                ]
+              }
+            ],
+            "properties": {
+              "Node name for S&R": "ACDEVRandomSeed",
+              "widget_order": [
+                "seed"
+              ]
+            },
+            "widgets_values": [
+              0
+            ],
+            "title": "Seed"
+          },
+          {
+            "id": 5,
+            "type": "CLIPLoader",
+            "pos": [
+              300,
+              766
+            ],
+            "size": [
+              340,
+              174
+            ],
+            "flags": {},
+            "order": 4,
             "mode": 0,
             "inputs": [],
             "outputs": [
@@ -522,8 +653,8 @@
                 "name": "CLIP",
                 "type": "CLIP",
                 "links": [
-                  1,
-                  8
+                  2,
+                  9
                 ]
               }
             ],
@@ -542,18 +673,18 @@
             ]
           },
           {
-            "id": 5,
+            "id": 6,
             "type": "VAELoader",
             "pos": [
               300,
-              794
+              980
             ],
             "size": [
               340,
               118
             ],
             "flags": {},
-            "order": 4,
+            "order": 5,
             "mode": 0,
             "inputs": [],
             "outputs": [
@@ -561,9 +692,9 @@
                 "name": "VAE",
                 "type": "VAE",
                 "links": [
-                  2,
-                  9,
-                  27
+                  3,
+                  10,
+                  28
                 ]
               }
             ],
@@ -578,7 +709,7 @@
             ]
           },
           {
-            "id": 6,
+            "id": 7,
             "type": "MiniMaxH3ImageToVideo",
             "pos": [
               720,
@@ -589,23 +720,23 @@
               398
             ],
             "flags": {},
-            "order": 5,
+            "order": 6,
             "mode": 0,
             "inputs": [
               {
                 "name": "clip",
                 "type": "CLIP",
-                "link": 1
+                "link": 2
               },
               {
                 "name": "vae",
                 "type": "VAE",
-                "link": 2
+                "link": 3
               },
               {
                 "name": "prompt",
                 "type": "STRING",
-                "link": 3,
+                "link": 4,
                 "widget": {
                   "name": "prompt"
                 }
@@ -613,7 +744,7 @@
               {
                 "name": "width",
                 "type": "INT",
-                "link": 4,
+                "link": 5,
                 "widget": {
                   "name": "width"
                 }
@@ -621,7 +752,7 @@
               {
                 "name": "height",
                 "type": "INT",
-                "link": 5,
+                "link": 6,
                 "widget": {
                   "name": "height"
                 }
@@ -629,7 +760,7 @@
               {
                 "name": "length",
                 "type": "INT",
-                "link": 6,
+                "link": 7,
                 "widget": {
                   "name": "length"
                 }
@@ -637,7 +768,7 @@
               {
                 "name": "first_frame",
                 "type": "IMAGE",
-                "link": 7
+                "link": 8
               }
             ],
             "outputs": [
@@ -645,7 +776,7 @@
                 "name": "CONDITIONING",
                 "type": "CONDITIONING",
                 "links": [
-                  18
+                  19
                 ]
               },
               {
@@ -669,10 +800,10 @@
               480,
               81
             ],
-            "title": "Negative prompt (with reference image)"
+            "title": "Negative prompt"
           },
           {
-            "id": 7,
+            "id": 8,
             "type": "MiniMaxH3ImageToVideo",
             "pos": [
               720,
@@ -683,23 +814,23 @@
               398
             ],
             "flags": {},
-            "order": 6,
+            "order": 7,
             "mode": 0,
             "inputs": [
               {
                 "name": "clip",
                 "type": "CLIP",
-                "link": 8
+                "link": 9
               },
               {
                 "name": "vae",
                 "type": "VAE",
-                "link": 9
+                "link": 10
               },
               {
                 "name": "prompt",
                 "type": "STRING",
-                "link": 10,
+                "link": 11,
                 "widget": {
                   "name": "prompt"
                 }
@@ -707,7 +838,7 @@
               {
                 "name": "width",
                 "type": "INT",
-                "link": 11,
+                "link": 12,
                 "widget": {
                   "name": "width"
                 }
@@ -715,7 +846,7 @@
               {
                 "name": "height",
                 "type": "INT",
-                "link": 12,
+                "link": 13,
                 "widget": {
                   "name": "height"
                 }
@@ -723,7 +854,7 @@
               {
                 "name": "length",
                 "type": "INT",
-                "link": 13,
+                "link": 14,
                 "widget": {
                   "name": "length"
                 }
@@ -731,7 +862,7 @@
               {
                 "name": "first_frame",
                 "type": "IMAGE",
-                "link": 14
+                "link": 15
               }
             ],
             "outputs": [
@@ -739,14 +870,14 @@
                 "name": "CONDITIONING",
                 "type": "CONDITIONING",
                 "links": [
-                  17
+                  18
                 ]
               },
               {
                 "name": "LATENT",
                 "type": "LATENT",
                 "links": [
-                  25
+                  26
                 ]
               }
             ],
@@ -767,18 +898,18 @@
             ]
           },
           {
-            "id": 8,
+            "id": 9,
             "type": "UNETLoader",
             "pos": [
               300,
-              952
+              1138
             ],
             "size": [
               340,
               146
             ],
             "flags": {},
-            "order": 7,
+            "order": 8,
             "mode": 0,
             "inputs": [],
             "outputs": [
@@ -786,7 +917,7 @@
                 "name": "MODEL",
                 "type": "MODEL",
                 "links": [
-                  15
+                  16
                 ]
               }
             ],
@@ -798,12 +929,12 @@
               ]
             },
             "widgets_values": [
-              "minimax_h3_fl2va_pruned_int8_convrot.safetensors",
+              "10Eros_Max_h3_8stepTURBO_beta7_fix1-native_int8_protected_edges_HQ.safetensors",
               "default"
             ]
           },
           {
-            "id": 9,
+            "id": 10,
             "type": "MiniMaxH3SigmaShift",
             "pos": [
               720,
@@ -814,13 +945,13 @@
               174
             ],
             "flags": {},
-            "order": 8,
+            "order": 9,
             "mode": 0,
             "inputs": [
               {
                 "name": "model",
                 "type": "MODEL",
-                "link": 15
+                "link": 16
               }
             ],
             "outputs": [
@@ -828,8 +959,8 @@
                 "name": "MODEL",
                 "type": "MODEL",
                 "links": [
-                  16,
-                  19
+                  17,
+                  20
                 ]
               }
             ],
@@ -846,7 +977,7 @@
             ]
           },
           {
-            "id": 10,
+            "id": 11,
             "type": "CFGGuider",
             "pos": [
               1140,
@@ -854,26 +985,34 @@
             ],
             "size": [
               340,
-              202
+              230
             ],
             "flags": {},
-            "order": 9,
+            "order": 10,
             "mode": 0,
             "inputs": [
               {
                 "name": "model",
                 "type": "MODEL",
-                "link": 16
+                "link": 17
               },
               {
                 "name": "positive",
                 "type": "CONDITIONING",
-                "link": 17
+                "link": 18
               },
               {
                 "name": "negative",
                 "type": "CONDITIONING",
-                "link": 18
+                "link": 19
+              },
+              {
+                "name": "cfg",
+                "type": "FLOAT",
+                "widget": {
+                  "name": "cfg"
+                },
+                "link": 41
               }
             ],
             "outputs": [
@@ -881,7 +1020,7 @@
                 "name": "GUIDER",
                 "type": "GUIDER",
                 "links": [
-                  22
+                  23
                 ]
               }
             ],
@@ -892,22 +1031,22 @@
               ]
             },
             "widgets_values": [
-              6.0
+              1.0
             ]
           },
           {
-            "id": 11,
+            "id": 12,
             "type": "KSamplerSelect",
             "pos": [
               300,
-              1138
+              1324
             ],
             "size": [
               340,
               118
             ],
             "flags": {},
-            "order": 10,
+            "order": 11,
             "mode": 0,
             "inputs": [],
             "outputs": [
@@ -915,7 +1054,7 @@
                 "name": "SAMPLER",
                 "type": "SAMPLER",
                 "links": [
-                  23
+                  24
                 ]
               }
             ],
@@ -926,28 +1065,36 @@
               ]
             },
             "widgets_values": [
-              "res_multistep"
+              "euler"
             ]
           },
           {
-            "id": 12,
+            "id": 13,
             "type": "BasicScheduler",
             "pos": [
               1140,
-              242
+              270
             ],
             "size": [
               340,
-              202
+              230
             ],
             "flags": {},
-            "order": 11,
+            "order": 12,
             "mode": 0,
             "inputs": [
               {
                 "name": "model",
                 "type": "MODEL",
-                "link": 19
+                "link": 20
+              },
+              {
+                "name": "steps",
+                "type": "INT",
+                "widget": {
+                  "name": "steps"
+                },
+                "link": 40
               }
             ],
             "outputs": [
@@ -955,7 +1102,7 @@
                 "name": "SIGMAS",
                 "type": "SIGMAS",
                 "links": [
-                  24
+                  25
                 ]
               }
             ],
@@ -969,29 +1116,29 @@
             },
             "widgets_values": [
               "simple",
-              20,
+              8,
               1.0
             ]
           },
           {
-            "id": 13,
+            "id": 14,
             "type": "RandomNoise",
             "pos": [
-              300,
-              1296
+              720,
+              1090
             ],
             "size": [
               340,
               174
             ],
             "flags": {},
-            "order": 12,
+            "order": 13,
             "mode": 0,
             "inputs": [
               {
                 "name": "noise_seed",
                 "type": "INT",
-                "link": 20,
+                "link": 21,
                 "widget": {
                   "name": "noise_seed"
                 }
@@ -1002,7 +1149,7 @@
                 "name": "NOISE",
                 "type": "NOISE",
                 "links": [
-                  21
+                  22
                 ]
               }
             ],
@@ -1018,7 +1165,7 @@
             ]
           },
           {
-            "id": 14,
+            "id": 15,
             "type": "SamplerCustomAdvanced",
             "pos": [
               1560,
@@ -1029,33 +1176,33 @@
               230
             ],
             "flags": {},
-            "order": 13,
+            "order": 14,
             "mode": 0,
             "inputs": [
               {
                 "name": "noise",
                 "type": "NOISE",
-                "link": 21
+                "link": 22
               },
               {
                 "name": "guider",
                 "type": "GUIDER",
-                "link": 22
+                "link": 23
               },
               {
                 "name": "sampler",
                 "type": "SAMPLER",
-                "link": 23
+                "link": 24
               },
               {
                 "name": "sigmas",
                 "type": "SIGMAS",
-                "link": 24
+                "link": 25
               },
               {
                 "name": "latent_image",
                 "type": "LATENT",
-                "link": 25
+                "link": 26
               }
             ],
             "outputs": [
@@ -1063,8 +1210,8 @@
                 "name": "LATENT",
                 "type": "LATENT",
                 "links": [
-                  26,
-                  28
+                  27,
+                  29
                 ]
               },
               {
@@ -1080,7 +1227,7 @@
             "widgets_values": []
           },
           {
-            "id": 15,
+            "id": 16,
             "type": "VAEDecode",
             "pos": [
               1980,
@@ -1091,18 +1238,18 @@
               146
             ],
             "flags": {},
-            "order": 14,
+            "order": 15,
             "mode": 0,
             "inputs": [
               {
                 "name": "samples",
                 "type": "LATENT",
-                "link": 26
+                "link": 27
               },
               {
                 "name": "vae",
                 "type": "VAE",
-                "link": 27
+                "link": 28
               }
             ],
             "outputs": [
@@ -1110,7 +1257,7 @@
                 "name": "IMAGE",
                 "type": "IMAGE",
                 "links": [
-                  30
+                  31
                 ]
               }
             ],
@@ -1121,18 +1268,18 @@
             "widgets_values": []
           },
           {
-            "id": 16,
+            "id": 17,
             "type": "VAELoader",
             "pos": [
               300,
-              1510
+              1482
             ],
             "size": [
               340,
               118
             ],
             "flags": {},
-            "order": 15,
+            "order": 16,
             "mode": 0,
             "inputs": [],
             "outputs": [
@@ -1140,7 +1287,7 @@
                 "name": "VAE",
                 "type": "VAE",
                 "links": [
-                  29
+                  30
                 ]
               }
             ],
@@ -1155,7 +1302,7 @@
             ]
           },
           {
-            "id": 17,
+            "id": 18,
             "type": "VAEDecodeAudio",
             "pos": [
               1980,
@@ -1166,18 +1313,18 @@
               146
             ],
             "flags": {},
-            "order": 16,
+            "order": 17,
             "mode": 0,
             "inputs": [
               {
                 "name": "samples",
                 "type": "LATENT",
-                "link": 28
+                "link": 29
               },
               {
                 "name": "vae",
                 "type": "VAE",
-                "link": 29
+                "link": 30
               }
             ],
             "outputs": [
@@ -1185,7 +1332,7 @@
                 "name": "AUDIO",
                 "type": "AUDIO",
                 "links": [
-                  32
+                  33
                 ]
               }
             ],
@@ -1196,7 +1343,7 @@
             "widgets_values": []
           },
           {
-            "id": 18,
+            "id": 19,
             "type": "CreateVideo",
             "pos": [
               2400,
@@ -1207,18 +1354,18 @@
               314
             ],
             "flags": {},
-            "order": 17,
+            "order": 18,
             "mode": 0,
             "inputs": [
               {
                 "name": "images",
                 "type": "IMAGE",
-                "link": 30
+                "link": 31
               },
               {
                 "name": "fps",
                 "type": "FLOAT",
-                "link": 31,
+                "link": 32,
                 "widget": {
                   "name": "fps"
                 }
@@ -1226,7 +1373,7 @@
               {
                 "name": "audio",
                 "type": "AUDIO",
-                "link": 32
+                "link": 33
               }
             ],
             "outputs": [
@@ -1234,7 +1381,7 @@
                 "name": "VIDEO",
                 "type": "VIDEO",
                 "links": [
-                  33
+                  34
                 ]
               }
             ],
@@ -1261,123 +1408,123 @@
         "links": [
           {
             "id": 1,
-            "origin_id": 4,
-            "origin_slot": 0,
-            "target_id": 6,
+            "origin_id": -10,
+            "origin_slot": 7,
+            "target_id": 2,
             "target_slot": 0,
-            "type": "CLIP"
+            "type": "STRING"
           },
           {
             "id": 2,
             "origin_id": 5,
             "origin_slot": 0,
-            "target_id": 6,
-            "target_slot": 1,
-            "type": "VAE"
-          },
-          {
-            "id": 3,
-            "origin_id": 1,
-            "origin_slot": 5,
-            "target_id": 6,
-            "target_slot": 2,
-            "type": "STRING"
-          },
-          {
-            "id": 4,
-            "origin_id": 1,
-            "origin_slot": 0,
-            "target_id": 6,
-            "target_slot": 3,
-            "type": "INT"
-          },
-          {
-            "id": 5,
-            "origin_id": 1,
-            "origin_slot": 1,
-            "target_id": 6,
-            "target_slot": 4,
-            "type": "INT"
-          },
-          {
-            "id": 6,
-            "origin_id": 1,
-            "origin_slot": 2,
-            "target_id": 6,
-            "target_slot": 5,
-            "type": "INT"
-          },
-          {
-            "id": 7,
-            "origin_id": -10,
-            "origin_slot": 0,
-            "target_id": 6,
-            "target_slot": 6,
-            "type": "IMAGE"
-          },
-          {
-            "id": 8,
-            "origin_id": 4,
-            "origin_slot": 0,
             "target_id": 7,
             "target_slot": 0,
             "type": "CLIP"
           },
           {
-            "id": 9,
-            "origin_id": 5,
+            "id": 3,
+            "origin_id": 6,
             "origin_slot": 0,
             "target_id": 7,
             "target_slot": 1,
             "type": "VAE"
           },
           {
-            "id": 10,
-            "origin_id": 1,
-            "origin_slot": 4,
+            "id": 4,
+            "origin_id": 2,
+            "origin_slot": 5,
             "target_id": 7,
             "target_slot": 2,
             "type": "STRING"
           },
           {
-            "id": 11,
-            "origin_id": 1,
+            "id": 5,
+            "origin_id": 2,
             "origin_slot": 0,
             "target_id": 7,
             "target_slot": 3,
             "type": "INT"
           },
           {
-            "id": 12,
-            "origin_id": 1,
+            "id": 6,
+            "origin_id": 2,
             "origin_slot": 1,
             "target_id": 7,
             "target_slot": 4,
             "type": "INT"
           },
           {
-            "id": 13,
-            "origin_id": 1,
+            "id": 7,
+            "origin_id": 2,
             "origin_slot": 2,
             "target_id": 7,
             "target_slot": 5,
             "type": "INT"
           },
           {
-            "id": 14,
+            "id": 8,
             "origin_id": -10,
-            "origin_slot": 0,
+            "origin_slot": 8,
             "target_id": 7,
             "target_slot": 6,
             "type": "IMAGE"
           },
           {
-            "id": 15,
-            "origin_id": 8,
+            "id": 9,
+            "origin_id": 5,
             "origin_slot": 0,
-            "target_id": 9,
+            "target_id": 8,
             "target_slot": 0,
-            "type": "MODEL"
+            "type": "CLIP"
+          },
+          {
+            "id": 10,
+            "origin_id": 6,
+            "origin_slot": 0,
+            "target_id": 8,
+            "target_slot": 1,
+            "type": "VAE"
+          },
+          {
+            "id": 11,
+            "origin_id": 2,
+            "origin_slot": 4,
+            "target_id": 8,
+            "target_slot": 2,
+            "type": "STRING"
+          },
+          {
+            "id": 12,
+            "origin_id": 2,
+            "origin_slot": 0,
+            "target_id": 8,
+            "target_slot": 3,
+            "type": "INT"
+          },
+          {
+            "id": 13,
+            "origin_id": 2,
+            "origin_slot": 1,
+            "target_id": 8,
+            "target_slot": 4,
+            "type": "INT"
+          },
+          {
+            "id": 14,
+            "origin_id": 2,
+            "origin_slot": 2,
+            "target_id": 8,
+            "target_slot": 5,
+            "type": "INT"
+          },
+          {
+            "id": 15,
+            "origin_id": -10,
+            "origin_slot": 8,
+            "target_id": 8,
+            "target_slot": 6,
+            "type": "IMAGE"
           },
           {
             "id": 16,
@@ -1389,179 +1536,211 @@
           },
           {
             "id": 17,
-            "origin_id": 7,
+            "origin_id": 10,
             "origin_slot": 0,
-            "target_id": 10,
-            "target_slot": 1,
-            "type": "CONDITIONING"
-          },
-          {
-            "id": 18,
-            "origin_id": 6,
-            "origin_slot": 0,
-            "target_id": 10,
-            "target_slot": 2,
-            "type": "CONDITIONING"
-          },
-          {
-            "id": 19,
-            "origin_id": 9,
-            "origin_slot": 0,
-            "target_id": 12,
+            "target_id": 11,
             "target_slot": 0,
             "type": "MODEL"
           },
           {
+            "id": 18,
+            "origin_id": 8,
+            "origin_slot": 0,
+            "target_id": 11,
+            "target_slot": 1,
+            "type": "CONDITIONING"
+          },
+          {
+            "id": 19,
+            "origin_id": 7,
+            "origin_slot": 0,
+            "target_id": 11,
+            "target_slot": 2,
+            "type": "CONDITIONING"
+          },
+          {
             "id": 20,
-            "origin_id": -10,
-            "origin_slot": 1,
+            "origin_id": 10,
+            "origin_slot": 0,
             "target_id": 13,
+            "target_slot": 0,
+            "type": "MODEL"
+          },
+          {
+            "id": 21,
+            "origin_id": 4,
+            "origin_slot": 0,
+            "target_id": 14,
             "target_slot": 0,
             "type": "INT"
           },
           {
-            "id": 21,
-            "origin_id": 13,
+            "id": 22,
+            "origin_id": 14,
             "origin_slot": 0,
-            "target_id": 14,
+            "target_id": 15,
             "target_slot": 0,
             "type": "NOISE"
-          },
-          {
-            "id": 22,
-            "origin_id": 10,
-            "origin_slot": 0,
-            "target_id": 14,
-            "target_slot": 1,
-            "type": "GUIDER"
           },
           {
             "id": 23,
             "origin_id": 11,
             "origin_slot": 0,
-            "target_id": 14,
-            "target_slot": 2,
-            "type": "SAMPLER"
+            "target_id": 15,
+            "target_slot": 1,
+            "type": "GUIDER"
           },
           {
             "id": 24,
             "origin_id": 12,
             "origin_slot": 0,
-            "target_id": 14,
+            "target_id": 15,
+            "target_slot": 2,
+            "type": "SAMPLER"
+          },
+          {
+            "id": 25,
+            "origin_id": 13,
+            "origin_slot": 0,
+            "target_id": 15,
             "target_slot": 3,
             "type": "SIGMAS"
           },
           {
-            "id": 25,
-            "origin_id": 7,
+            "id": 26,
+            "origin_id": 8,
             "origin_slot": 1,
-            "target_id": 14,
+            "target_id": 15,
             "target_slot": 4,
             "type": "LATENT"
           },
           {
-            "id": 26,
-            "origin_id": 14,
+            "id": 27,
+            "origin_id": 15,
             "origin_slot": 0,
-            "target_id": 15,
+            "target_id": 16,
             "target_slot": 0,
             "type": "LATENT"
-          },
-          {
-            "id": 27,
-            "origin_id": 5,
-            "origin_slot": 0,
-            "target_id": 15,
-            "target_slot": 1,
-            "type": "VAE"
           },
           {
             "id": 28,
-            "origin_id": 14,
+            "origin_id": 6,
             "origin_slot": 0,
-            "target_id": 17,
-            "target_slot": 0,
-            "type": "LATENT"
-          },
-          {
-            "id": 29,
-            "origin_id": 16,
-            "origin_slot": 0,
-            "target_id": 17,
+            "target_id": 16,
             "target_slot": 1,
             "type": "VAE"
           },
           {
-            "id": 30,
+            "id": 29,
             "origin_id": 15,
             "origin_slot": 0,
             "target_id": 18,
             "target_slot": 0,
-            "type": "IMAGE"
+            "type": "LATENT"
+          },
+          {
+            "id": 30,
+            "origin_id": 17,
+            "origin_slot": 0,
+            "target_id": 18,
+            "target_slot": 1,
+            "type": "VAE"
           },
           {
             "id": 31,
-            "origin_id": 1,
+            "origin_id": 16,
+            "origin_slot": 0,
+            "target_id": 19,
+            "target_slot": 0,
+            "type": "IMAGE"
+          },
+          {
+            "id": 32,
+            "origin_id": 2,
             "origin_slot": 3,
-            "target_id": 18,
+            "target_id": 19,
             "target_slot": 1,
             "type": "FLOAT"
           },
           {
-            "id": 32,
-            "origin_id": 17,
+            "id": 33,
+            "origin_id": 18,
             "origin_slot": 0,
-            "target_id": 18,
+            "target_id": 19,
             "target_slot": 2,
             "type": "AUDIO"
           },
           {
-            "id": 33,
-            "origin_id": 18,
+            "id": 34,
+            "origin_id": 19,
             "origin_slot": 0,
             "target_id": -20,
             "target_slot": 0,
             "type": "VIDEO"
           },
           {
+            "id": 35,
+            "origin_id": 4,
+            "origin_slot": 0,
+            "target_id": -20,
+            "target_slot": 1,
+            "type": "INT"
+          },
+          {
+            "id": 36,
+            "origin_id": -10,
+            "origin_slot": 0,
+            "target_id": 2,
+            "target_slot": 1,
+            "type": "INT"
+          },
+          {
             "id": 37,
             "origin_id": -10,
-            "origin_slot": 2,
-            "target_id": 1,
-            "target_slot": 0,
-            "type": "STRING"
+            "origin_slot": 1,
+            "target_id": 2,
+            "target_slot": 2,
+            "type": "INT"
           },
           {
             "id": 38,
             "origin_id": -10,
-            "origin_slot": 3,
-            "target_id": 1,
-            "target_slot": 1,
-            "type": "STRING"
+            "origin_slot": 2,
+            "target_id": 2,
+            "target_slot": 3,
+            "type": "FLOAT"
           },
           {
             "id": 39,
             "origin_id": -10,
-            "origin_slot": 4,
-            "target_id": 1,
-            "target_slot": 2,
+            "origin_slot": 3,
+            "target_id": 4,
+            "target_slot": 0,
             "type": "INT"
           },
           {
             "id": 40,
             "origin_id": -10,
-            "origin_slot": 5,
-            "target_id": 1,
-            "target_slot": 3,
+            "origin_slot": 4,
+            "target_id": 13,
+            "target_slot": 1,
             "type": "INT"
           },
           {
             "id": 41,
             "origin_id": -10,
-            "origin_slot": 6,
-            "target_id": 1,
-            "target_slot": 4,
+            "origin_slot": 5,
+            "target_id": 11,
+            "target_slot": 3,
             "type": "FLOAT"
+          },
+          {
+            "id": 42,
+            "origin_id": -10,
+            "origin_slot": 6,
+            "target_id": 2,
+            "target_slot": 4,
+            "type": "STRING"
           }
         ],
         "extra": {}
@@ -1571,10 +1750,10 @@
   "config": {},
   "extra": {
     "ds": {
-      "scale": 0.8,
+      "scale": 0.75,
       "offset": [
         40,
-        80
+        20
       ]
     }
   },

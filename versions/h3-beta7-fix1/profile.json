@@ -14,8 +14,7 @@
       "modes": [
         "standard",
         "turbo4",
-        "turbo8",
-        "standard-cfg6"
+        "turbo8"
       ]
     },
     {
@@ -86,5 +85,6 @@
     }
   ],
   "attention": "pytorch",
-  "validation": "Source checks only; Docker build and GPU generation pending."
+  "validation": "Source checks only; Docker build and GPU generation pending.",
+  "workflow_folder": "H3 video (10Eros beta7 fix1)"
 }

@@ -1,82 +1,74 @@
 [
   {
-    "name": "h3-beta7-fix1_standard_i2v",
-    "mode": "standard",
-    "task": "i2v",
-    "ui": "workflows/h3-beta7-fix1_standard_i2v.json",
-    "api": "api/h3-beta7-fix1_standard_i2v.json",
-    "experimental": false
-  },
-  {
-    "name": "h3-beta7-fix1_standard_t2v",
-    "mode": "standard",
-    "task": "t2v",
-    "ui": "workflows/h3-beta7-fix1_standard_t2v.json",
-    "api": "api/h3-beta7-fix1_standard_t2v.json",
-    "experimental": false
-  },
-  {
-    "name": "h3-beta7-fix1_standard-cfg6_i2v",
-    "mode": "standard-cfg6",
-    "task": "i2v",
-    "ui": "workflows/h3-beta7-fix1_standard-cfg6_i2v.json",
-    "api": "api/h3-beta7-fix1_standard-cfg6_i2v.json",
-    "experimental": true
-  },
-  {
-    "name": "h3-beta7-fix1_standard-cfg6_t2v",
-    "mode": "standard-cfg6",
-    "task": "t2v",
-    "ui": "workflows/h3-beta7-fix1_standard-cfg6_t2v.json",
-    "api": "api/h3-beta7-fix1_standard-cfg6_t2v.json",
-    "experimental": true
-  },
-  {
-    "name": "h3-beta7-fix1_turbo4_i2v",
-    "mode": "turbo4",
-    "task": "i2v",
-    "ui": "workflows/h3-beta7-fix1_turbo4_i2v.json",
-    "api": "api/h3-beta7-fix1_turbo4_i2v.json",
-    "experimental": false
-  },
-  {
-    "name": "h3-beta7-fix1_turbo4_t2v",
-    "mode": "turbo4",
-    "task": "t2v",
-    "ui": "workflows/h3-beta7-fix1_turbo4_t2v.json",
-    "api": "api/h3-beta7-fix1_turbo4_t2v.json",
-    "experimental": false
-  },
-  {
-    "name": "h3-beta7-fix1_turbo8_i2v",
-    "mode": "turbo8",
-    "task": "i2v",
-    "ui": "workflows/h3-beta7-fix1_turbo8_i2v.json",
-    "api": "api/h3-beta7-fix1_turbo8_i2v.json",
-    "experimental": false
-  },
-  {
-    "name": "h3-beta7-fix1_turbo8_t2v",
-    "mode": "turbo8",
-    "task": "t2v",
-    "ui": "workflows/h3-beta7-fix1_turbo8_t2v.json",
-    "api": "api/h3-beta7-fix1_turbo8_t2v.json",
-    "experimental": false
-  },
-  {
     "name": "h3-beta7-fix1_eros_i2v",
+    "title": "01 Eros - Image to Video",
     "mode": "eros",
     "task": "i2v",
-    "ui": "workflows/h3-beta7-fix1_eros_i2v.json",
+    "ui": "workflows/01 Eros - Image to Video.json",
     "api": "api/h3-beta7-fix1_eros_i2v.json",
     "experimental": true
   },
   {
     "name": "h3-beta7-fix1_eros_t2v",
+    "title": "02 Eros - Text to Video",
     "mode": "eros",
     "task": "t2v",
-    "ui": "workflows/h3-beta7-fix1_eros_t2v.json",
+    "ui": "workflows/02 Eros - Text to Video.json",
     "api": "api/h3-beta7-fix1_eros_t2v.json",
     "experimental": true
+  },
+  {
+    "name": "h3-beta7-fix1_turbo8_i2v",
+    "title": "03 Turbo 8-step - Image to Video",
+    "mode": "turbo8",
+    "task": "i2v",
+    "ui": "workflows/03 Turbo 8-step - Image to Video.json",
+    "api": "api/h3-beta7-fix1_turbo8_i2v.json",
+    "experimental": false
+  },
+  {
+    "name": "h3-beta7-fix1_turbo8_t2v",
+    "title": "04 Turbo 8-step - Text to Video",
+    "mode": "turbo8",
+    "task": "t2v",
+    "ui": "workflows/04 Turbo 8-step - Text to Video.json",
+    "api": "api/h3-beta7-fix1_turbo8_t2v.json",
+    "experimental": false
+  },
+  {
+    "name": "h3-beta7-fix1_turbo4_i2v",
+    "title": "05 Turbo 4-step - Image to Video",
+    "mode": "turbo4",
+    "task": "i2v",
+    "ui": "workflows/05 Turbo 4-step - Image to Video.json",
+    "api": "api/h3-beta7-fix1_turbo4_i2v.json",
+    "experimental": false
+  },
+  {
+    "name": "h3-beta7-fix1_turbo4_t2v",
+    "title": "06 Turbo 4-step - Text to Video",
+    "mode": "turbo4",
+    "task": "t2v",
+    "ui": "workflows/06 Turbo 4-step - Text to Video.json",
+    "api": "api/h3-beta7-fix1_turbo4_t2v.json",
+    "experimental": false
+  },
+  {
+    "name": "h3-beta7-fix1_standard_i2v",
+    "title": "07 Standard 20-step - Image to Video",
+    "mode": "standard",
+    "task": "i2v",
+    "ui": "workflows/07 Standard 20-step - Image to Video.json",
+    "api": "api/h3-beta7-fix1_standard_i2v.json",
+    "experimental": false
+  },
+  {
+    "name": "h3-beta7-fix1_standard_t2v",
+    "title": "08 Standard 20-step - Text to Video",
+    "mode": "standard",
+    "task": "t2v",
+    "ui": "workflows/08 Standard 20-step - Text to Video.json",
+    "api": "api/h3-beta7-fix1_standard_t2v.json",
+    "experimental": false
   }
 ]
